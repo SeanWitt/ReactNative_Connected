@@ -1,11 +1,12 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Image, StyleSheet, View, Text, ListView, TouchableHighlight } from 'react-native';
+import { Image, StyleSheet, View, Text, ListView, TouchableHighlight, ActivityIndicatorIOS } from 'react-native';
 
-var FAKE_BOOK_DATA = [
-    {volumeInfo: {title: 'The Catcher in the Rye', authors: "J. D. Salinger", imageLinks: {thumbnail: 'w'}}}
-];
+var CategoryDetail = require('./CategoryDetail');
+
+
+var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:fiction';
 
 var styles = StyleSheet.create({
     container: {
@@ -34,23 +35,95 @@ var styles = StyleSheet.create({
     separator: {
        height: 1,
        backgroundColor: '#dddddd'
+   }, listView: {
+       backgroundColor: '#F5FCFF'
+   },
+   loading: {
+       flex: 1,
+       alignItems: 'center',
+       justifyContent: 'center'
    }
 });
 
 class CategoriesList extends Component {
-    render() {
-      var book = FAKE_BOOK_DATA[0];
-        return (
-            <View style={styles.container}>
-                <Image source={{uri: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRgVwAc_xSz-VgKZ4wVoE6igESZoly4KJoqq1y2zZuMv032iYLQobF3GPU'}}
-                            style={styles.thumbnail} />
-                <View style={styles.rightContainer}>
-                    <Text style={styles.title}>{book.volumeInfo.title}</Text>
-                    <Text style={styles.author}>{book.volumeInfo.authors}</Text>
-                </View>
-            </View>
-        );
+    constructor(props) {
+           super(props);
+           this.state = {
+            isLoading: true,
+            dataSource: new ListView.DataSource({
+                   rowHasChanged: (row1, row2) => row1 !== row2
+               })
+           };
     }
+
+    componentDidMount() {
+       this.fetchData();
+    }
+
+    fetchData() {
+       fetch(REQUEST_URL)
+       .then((response) => response.json())
+       .then((responseData) => {
+           this.setState({
+               dataSource: this.state.dataSource.cloneWithRows(responseData.items),
+               isLoading: false
+           });
+       })
+       .done();
+   }
+
+  render() {
+         if (this.state.isLoading) {
+             return this.renderLoadingView();
+         }
+
+         return (
+              <ListView
+                  dataSource={this.state.dataSource}
+                  renderRow={this.renderBook.bind(this)}
+                  style={styles.listView}
+                  />
+          );
+  }
+
+  renderLoadingView() {
+      return (
+          <View style={styles.loading}>
+              <ActivityIndicatorIOS
+                  size='large'/>
+              <Text>
+                  Loading Categories...
+              </Text>
+          </View>
+      );
+  }
+
+  showBookDetail(book) {
+       this.props.navigator.push({
+           title: book.volumeInfo.title,
+           component: CategoryDetail,
+           passProps: {book}
+       });
+  }
+
+  renderBook(book) {
+     return (
+          <TouchableHighlight onPress={() => this.showBookDetail(book)}  underlayColor='#dddddd'>
+              <View>
+                  <View style={styles.container}>
+                      <Image
+                          source={{uri: book.volumeInfo.imageLinks.thumbnail}}
+                          style={styles.thumbnail} />
+                      <View style={styles.rightContainer}>
+                          <Text style={styles.title}>{book.volumeInfo.title}</Text>
+                          <Text style={styles.author}>{book.volumeInfo.authors}</Text>
+                      </View>
+                  </View>
+                  <View style={styles.separator} />
+              </View>
+          </TouchableHighlight>
+     );
+   }
 }
 
 module.exports = CategoriesList;
