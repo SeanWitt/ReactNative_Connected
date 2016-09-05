@@ -1,0 +1,3 @@
+rootProject.name = 'bookfinder'
+
+include ':app'
