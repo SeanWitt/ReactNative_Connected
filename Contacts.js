@@ -4,26 +4,24 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
 
+var MyContacts = require('./MyContacts');
+
 var styles = StyleSheet.create({
-    description: {
-        fontSize: 20,
-        backgroundColor: 'white'
-    },
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        flex: 1
     }
 });
+
 
 class Contacts extends React.Component {
     render() {
         return (
-        <View style={styles.container}>
-          <Text style={styles.description}>
-            Contacts Tab
-          </Text>
-      </View>
+            <NavigatorIOS
+                style={styles.container}
+                initialRoute={{
+            title: 'My Contacts',
+            component: MyContacts
+            }}/>
         );
     }
 }
