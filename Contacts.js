@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { NavigatorIOS, StyleSheet, View, Text } from 'react-native';
 
 
 var MyContacts = require('./MyContacts');
