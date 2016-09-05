@@ -6,7 +6,7 @@ import { Image, StyleSheet, View, Text, ListView, TouchableHighlight, ActivityIn
 var CategoryDetail = require('./CategoryDetail');
 
 
-var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:fiction';
+var REQUEST_URL = 'http://localhost:3000/interests';
 
 var styles = StyleSheet.create({
     container: {
@@ -65,7 +65,7 @@ class CategoriesList extends Component {
        .then((response) => response.json())
        .then((responseData) => {
            this.setState({
-               dataSource: this.state.dataSource.cloneWithRows(responseData.items),
+               dataSource: this.state.dataSource.cloneWithRows(responseData),
                isLoading: false
            });
        })
@@ -80,7 +80,7 @@ class CategoriesList extends Component {
          return (
               <ListView
                   dataSource={this.state.dataSource}
-                  renderRow={this.renderBook.bind(this)}
+                  renderRow={this.renderInterest.bind(this)}
                   style={styles.listView}
                   />
           );
@@ -98,25 +98,24 @@ class CategoriesList extends Component {
       );
   }
 
-  showBookDetail(book) {
+  showInterestDetail(interest) {
        this.props.navigator.push({
-           title: book.volumeInfo.title,
+           title: interest.name,
            component: CategoryDetail,
-           passProps: {book}
+           passProps: {interest}
        });
   }
 
-  renderBook(book) {
+  renderInterest(interest) {
      return (
-          <TouchableHighlight onPress={() => this.showBookDetail(book)}  underlayColor='#dddddd'>
+          <TouchableHighlight onPress={() => this.showInterestDetail(interest)}  underlayColor='#dddddd'>
               <View>
                   <View style={styles.container}>
                       <Image
-                          source={{uri: book.volumeInfo.imageLinks.thumbnail}}
+                          source={{uri: interest.image_url}}
                           style={styles.thumbnail} />
                       <View style={styles.rightContainer}>
-                          <Text style={styles.title}>{book.volumeInfo.title}</Text>
-                          <Text style={styles.author}>{book.volumeInfo.authors}</Text>
+                          <Text style={styles.title}>{interest.name}</Text>
                       </View>
                   </View>
                   <View style={styles.separator} />

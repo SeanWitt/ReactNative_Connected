@@ -22,13 +22,13 @@ var styles = StyleSheet.create({
 
 class CategoryDetail extends Component {
     render() {
-        var book = this.props.book;
-        var imageURI = (typeof book.volumeInfo.imageLinks !== 'undefined') ? book.volumeInfo.imageLinks.thumbnail : '';
-        var description = (typeof book.volumeInfo.description !== 'undefined') ? book.volumeInfo.description : '';
+        var interest = this.props.interest;
+        var name = (typeof interest.name !== 'undefined') ? interest.name : '';
+        var imageURI = (typeof interest.image_url !== 'undefined') ? interest.image_url : '';
         return (
             <View style={styles.container}>
                 <Image style={styles.image} source={{uri: imageURI}} />
-                <Text style={styles.description}>{description}</Text>
+                <Text style={styles.description}>{name}</Text>
             </View>
         );
     }
