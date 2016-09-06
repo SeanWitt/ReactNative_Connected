@@ -14,7 +14,7 @@ export default class Register extends Component {
  constructor() {
     super ();
       this.state = {
-        name: "",
+        username: "",
         email: "",
         password: "",
         password_confirmation: "",
@@ -30,11 +30,11 @@ export default class Register extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body:JSON.stringify({name: this.state.name, email: this.state.email, password: this.state.password})
+      body:JSON.stringify({username: this.state.username, email: this.state.email, password: this.state.password})
     }).then((response) => response.json())
     .then((responseData) => { AlertIOS.alert(
       "Get Response",
-      "Name:" + responseData.name + " Email:" + responseData.email
+      "Name:" + responseData.username + " Email:" + responseData.email
       );
     })
       .done();
@@ -49,7 +49,7 @@ export default class Register extends Component {
           style={styles.input} placeholder="Email">
         </TextInput>
         <TextInput
-          onChangeText={(val) => this.setState({name: val})}
+          onChangeText={(val) => this.setState({username: val})}
           style={styles.input} placeholder="Name">
         </TextInput>
         <TextInput
