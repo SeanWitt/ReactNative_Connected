@@ -21,7 +21,19 @@ var styles = StyleSheet.create({
         padding: 10,
         fontSize: 15,
         color: '#656565'
-    }
+    },
+    separator: {
+       height: 1,
+       backgroundColor: '#dddddd'
+   }, listView: {
+       backgroundColor: '#F5FCFF',
+       marginTop: 65,
+   },
+   loading: {
+       flex: 1,
+       alignItems: 'center',
+       justifyContent: 'center'
+   }
 });
 
 

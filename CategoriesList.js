@@ -36,15 +36,13 @@ var styles = StyleSheet.create({
        height: 1,
        backgroundColor: '#dddddd'
    }, listView: {
-       backgroundColor: '#F5FCFF'
+       backgroundColor: '#F5FCFF',
+       marginTop: 65,
    },
    loading: {
        flex: 1,
        alignItems: 'center',
        justifyContent: 'center'
-   },
-   listView: {
-      marginTop: 65,
    }
 });
 
