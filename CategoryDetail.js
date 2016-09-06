@@ -12,6 +12,18 @@ var styles = StyleSheet.create({
         marginTop: 75,
         alignItems: 'center'
     },
+    thumbnail: {
+        width: 53,
+        height: 81,
+        marginRight: 10
+    },
+    rightContainer: {
+        flex: 1
+    },
+    title: {
+        fontSize: 15,
+        marginBottom: 8
+    },
     image: {
         width: 107,
         height: 165,
@@ -25,15 +37,16 @@ var styles = StyleSheet.create({
     separator: {
        height: 1,
        backgroundColor: '#dddddd'
-   }, listView: {
+    },
+    listView: {
        backgroundColor: '#F5FCFF',
        marginTop: 65,
-   },
-   loading: {
+    },
+    loading: {
        flex: 1,
        alignItems: 'center',
        justifyContent: 'center'
-   }
+    }
 });
 
 
