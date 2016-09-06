@@ -4,7 +4,8 @@ import { AppRegistry, TabBarIOS, View, Text } from 'react-native';
 var Featured = require('./Featured');
 var Search = require('./Search');
 var Contacts = require('./Contacts');
-import Login from './Login.js';
+var Register = require('./Register');
+
 
 
 class Connected extends Component {
@@ -19,6 +20,7 @@ class Connected extends Component {
     render() {
         return (
             <TabBarIOS selectedTab={this.state.selectedTab}>
+
                 <TabBarIOS.Item
                 systemIcon="featured"
                     selected={this.state.selectedTab === 'featured'}
@@ -48,6 +50,16 @@ class Connected extends Component {
                         });
                     }}>
                     <Contacts/>
+                </TabBarIOS.Item>
+                <TabBarIOS.Item
+                systemIcon="more"
+                    selected={this.state.selectedTab === 'more'}
+                    onPress={() => {
+                        this.setState({
+                            selectedTab: 'more'
+                        });
+                    }}>
+                    <Register/>
                 </TabBarIOS.Item>
             </TabBarIOS>
         );
