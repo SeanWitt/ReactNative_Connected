@@ -3,6 +3,8 @@ import { View,
          Text,
          StyleSheet,
          TextInput,
+         AsyncStorage,
+         ActivityIndicator,
          TouchableHighlight,
          AlertIOS } from 'react-native';
 
@@ -19,22 +21,6 @@ export default class Register extends Component {
         errors: []
       }
     }
-
-  carTester() {
-    fetch('http://localhost:3000', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    }).then((response) => response.json())
-    .then((responseData) => { AlertIOS.alert(
-      "Get Response",
-      "Make:" + responseData.make + " Year:" + responseData.year
-      );
-    })
-      .done();
-  }
 
   onRegisterPressed() {
 
@@ -68,11 +54,15 @@ export default class Register extends Component {
         </TextInput>
         <TextInput
           onChangeText={(val) => this.setState({password: val})}
-          style={styles.input} placeholder="Password">
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry={true}>
         </TextInput>
         <TextInput
           onChangeText={(val) => this.setState({password_confirmation: val})}
-          style={styles.input} placeholder="Confirm Password">
+          style={styles.input}
+          placeholder="Confirm Password"
+          secureTextEntry={true}>
           </TextInput>
         <TouchableHighlight style={styles.button} onPress={this.onRegisterPressed.bind(this)}>
         <Text style={styles.buttonText}>
