@@ -9,6 +9,17 @@ import { View,
 
 
 export default class Login extends Component {
+
+  constructor() {
+  super ();
+    this.state = {
+      name: "",
+      email: "",
+      errors: []
+    }
+  }
+
+
   static get defaultProps() {
     return {
       title: 'Login'
