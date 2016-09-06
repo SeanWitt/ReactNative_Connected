@@ -53,4 +53,4 @@ class Connected extends Component {
     }
 }
 
-AppRegistry.registerComponent('Connected', () => Connected);
+AppRegistry.registerComponent('bookfinder', () => Connected);
