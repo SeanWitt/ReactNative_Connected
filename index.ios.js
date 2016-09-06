@@ -6,7 +6,7 @@ var Search = require('./Search');
 var Contacts = require('./Contacts');
 
 
-class BookFinder extends Component {
+class Connected extends Component {
 
     constructor(props) {
         super(props);
@@ -53,4 +53,4 @@ class BookFinder extends Component {
     }
 }
 
-AppRegistry.registerComponent('bookfinder', () => BookFinder);
+AppRegistry.registerComponent('Connected', () => Connected);
