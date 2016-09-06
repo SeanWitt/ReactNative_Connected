@@ -58,7 +58,6 @@ export default class Register extends Component {
     return (
 
        <View style = {styles.container}>
-          <Login />
         <TextInput
           onChangeText={(val) => this.setState({email: val})}
           style={styles.input} placeholder="Email">
