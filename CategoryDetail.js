@@ -9,8 +9,12 @@ var REQUEST_URL = 'http://localhost:3000/interests';
 
 var styles = StyleSheet.create({
     container: {
-        marginTop: 75,
-        alignItems: 'center'
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+        padding: 10
     },
     thumbnail: {
         width: 53,
@@ -78,17 +82,15 @@ class CategoryDetail extends Component {
             interest: interest,
         })
        })
-       .then((response) => response.json())
+        .then((response) => response.json())
        .then((responseData) => {
-           this.setState({
-               dataSource: this.state.dataSource.cloneWithRows(responseData),
-               isLoading: false
-           });
-       })
-       .done();
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(responseData),
+                isLoading: false
+            });
+        })
+        .done();
     }
-
-
 
     render() {
         if (this.state.isLoading) {
@@ -128,16 +130,19 @@ class CategoryDetail extends Component {
 
     renderUser(user) {
         return (
-          <TouchableHighlight onPress={() => this.showUserDetail(user)}  underlayColor='#dddddd'>
-              <View>
-                  <View style={styles.container}>
-                      <View style={styles.rightContainer}>
-                          <Text style={styles.title}>{user.username}</Text>
-                      </View>
-                  </View>
-                  <View style={styles.separator} />
-              </View>
-          </TouchableHighlight>
+            <TouchableHighlight onPress={() => this.showUserDetail(user)}  underlayColor='#dddddd'>
+                <View>
+                    <View style={styles.container}>
+                        <Image
+                            source={{uri: user.image_url}}
+                            style={styles.thumbnail} />
+                                <View style={styles.rightContainer}>
+                                    <Text style={styles.title}>{user.username}</Text>
+                                </View>
+                        </View>
+                    <View style={styles.separator} />
+                </View>
+            </TouchableHighlight>
      );
    }
 }
