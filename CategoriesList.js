@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Image, StyleSheet, View, Text, ListView, TouchableHighlight, ActivityIndicatorIOS } from 'react-native';
+import { Image, StyleSheet, View, Text, ListView, TouchableHighlight, ActivityIndicator } from 'react-native';
 
 var CategoryDetail = require('./CategoryDetail');
 
@@ -42,6 +42,9 @@ var styles = StyleSheet.create({
        flex: 1,
        alignItems: 'center',
        justifyContent: 'center'
+   },
+   listView: {
+      marginTop: 65,
    }
 });
 
@@ -72,6 +75,8 @@ class CategoriesList extends Component {
        .done();
    }
 
+
+
   render() {
          if (this.state.isLoading) {
              return this.renderLoadingView();
@@ -89,7 +94,7 @@ class CategoriesList extends Component {
   renderLoadingView() {
       return (
           <View style={styles.loading}>
-              <ActivityIndicatorIOS
+              <ActivityIndicator
                   size='large'/>
               <Text>
                   Loading Categories...
@@ -100,11 +105,13 @@ class CategoriesList extends Component {
 
   showInterestDetail(interest) {
        this.props.navigator.push({
-           title: interest.name,
+           title: "People near you that like " + interest.name,
            component: CategoryDetail,
            passProps: {interest}
        });
   }
+
+
 
   renderInterest(interest) {
      return (
