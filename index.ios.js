@@ -4,6 +4,7 @@ import { AppRegistry, TabBarIOS, View, Text } from 'react-native';
 var Featured = require('./Featured');
 var Search = require('./Search');
 var Contacts = require('./Contacts');
+import Login from './Login.js';
 
 
 class Connected extends Component {
