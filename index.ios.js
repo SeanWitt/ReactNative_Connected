@@ -1,69 +1,58 @@
 'use strict';
 import React, { Component } from 'react';
-import { AppRegistry, TabBarIOS, View, Text } from 'react-native';
+import { AppRegistry,
+        TabBarIOS,
+        View,
+        Text,
+        Navigator,
+        StyleSheet } from 'react-native';
+
 var Featured = require('./Featured');
 var Search = require('./Search');
 var Contacts = require('./Contacts');
 var Register = require('./Register');
-
+import Login from './Login';
 
 
 class Connected extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedTab: 'featured'
-        };
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         selectedTab: 'featured'
+    //     };
+    // }
+
+    renderScene(route, navigator) {
+        console.log(route);
+        if(route.name == 'login') {
+            return <Login navigator={navigator} />
+        }
+        if(route.name == 'register') {
+            return <Register navigator={navigator} />
+        }
+        if(route.name == 'featured') {
+            return <Featured navigator={navigator} />
+        }
     }
 
     render() {
         return (
-            <TabBarIOS selectedTab={this.state.selectedTab}>
-
-                <TabBarIOS.Item
-                systemIcon="featured"
-                    selected={this.state.selectedTab === 'featured'}
-                    onPress={() => {
-                        this.setState({
-                            selectedTab: 'featured'
-                        });
-                    }}>
-                    <Featured/>
-                </TabBarIOS.Item>
-                <TabBarIOS.Item
-                systemIcon="search"
-                    selected={this.state.selectedTab === 'search'}
-                    onPress={() => {
-                        this.setState({
-                            selectedTab: 'search'
-                        });
-                    }}>
-                    <Search/>
-                </TabBarIOS.Item>
-                <TabBarIOS.Item
-                systemIcon="contacts"
-                    selected={this.state.selectedTab === 'contacts'}
-                    onPress={() => {
-                        this.setState({
-                            selectedTab: 'contacts'
-                        });
-                    }}>
-                    <Contacts/>
-                </TabBarIOS.Item>
-                <TabBarIOS.Item
-                systemIcon="more"
-                    selected={this.state.selectedTab === 'more'}
-                    onPress={() => {
-                        this.setState({
-                            selectedTab: 'more'
-                        });
-                    }}>
-                    <Register/>
-                </TabBarIOS.Item>
-            </TabBarIOS>
+            <View style={styles.container}>
+                <Navigator
+                    initialRoute={{name: 'register'}}
+                    renderScene={this.renderScene.bind(this)}
+                />
+            </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
+  },
+});
 
 AppRegistry.registerComponent('bookfinder', () => Connected);
