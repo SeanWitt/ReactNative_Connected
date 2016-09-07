@@ -1,46 +1,95 @@
+
 import React, { Component } from 'react';
 import { View,
          Text,
          StyleSheet,
          TextInput,
          TouchableHighlight,
+         ActivityIndicator,
+         AsyncStorage,
          AlertIOS } from 'react-native';
 
+const ACCESS_TOKEN = 'access_token'
 
-
-export default class Login extends Component {
-
+class Login extends Component {
   constructor() {
-  super ();
+    super ();
+
     this.state = {
-      name: "",
       email: "",
-      errors: []
+      password: "",
+      error: "",
+      showProgress: false,
     }
   }
 
-
-  static get defaultProps() {
-    return {
-      title: 'Login'
-    };
+  redirect(routeName){
+    this.props.navigator.push({
+      name: routeName
+    });
+  }
+  async storeToken(accessToken){
+    try {
+        await AsyncStorage.setItem(ACCESS_TOKEN, accessToken);
+        this.getToken();
+    } catch(error) {
+        console.log("something went wrong");
+    }
   }
 
-  onLoginPressed() {
-    fetch('http://localhost:3000/sessions/new', {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body:JSON.stringify({email: this.state.email, password: this.state.password})
-    }).then((response) => response.json())
-    .then((responseData) => { AlertIOS.alert(
-      "Get Response",
-      "Name:" + responseData.name + " Email:" + responseData.email
-      );
-    })
-      .done();
+  async getToken(){
+    try {
+        let token = await AsyncStorage.getItem(ACCESS_TOKEN);
+        console.log("token is: " + token)
+    } catch(error) {
+        console.log("something went wrong");
+    }
+  }
+
+  async removeToken(){
+    try {
+        await AsyncStorage.removeItem(ACCESS_TOKEN);
+        this.getToken();
+    } catch(error) {
+        console.log("something went wrong");
+    }
+  }
+
+  async onLoginPressed() {
+    this.setState({showProgess: true})
+    try {
+      let response = await fetch('http://localhost:3000/sessions', {
+                              method: 'POST',
+                              headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                              },
+                              body: JSON.stringify({
+                                session:{
+                                  email: this.state.email,
+                                  password: this.state.password,
+                                }
+                              })
+                            });
+      let res = await response.text();
+      if (response.status >= 200 && response.status < 300) {
+          //Handle success
+          let accessToken = res;
+          console.log(accessToken);
+          //On success we will store the access_token in the AsyncStorage
+          this.storeToken(accessToken);
+          this.redirect('home');
+      } else {
+          //Handle error
+          let error = res;
+          throw error;
+      }
+    } catch(error) {
+        this.removeToken();
+        this.setState({error: error});
+        console.log("error " + error);
+        this.setState({showProgress: false});
+    }
   }
 
 
@@ -49,7 +98,7 @@ export default class Login extends Component {
        <View style = {styles.container}>
         <TextInput
           onChangeText={(val) => this.setState({email: val})}
-          style={styles.input} placeholder=" Email">
+          style={styles.input} placeholder="Email">
         </TextInput>
         <TextInput
           onChangeText={(val) => this.setState({password: val})}
@@ -62,6 +111,12 @@ export default class Login extends Component {
           Login
         </Text>
         </TouchableHighlight>
+
+        <Text style={styles.error}>
+
+        </Text>
+
+        <ActivityIndicator animating={this.state.showProgress} size="large" style={styles.loader} />
       </View>
     )
   }
@@ -115,5 +170,5 @@ const styles = StyleSheet.create({
 })
 
 
-module.exports = Login;
+export default Login
 
