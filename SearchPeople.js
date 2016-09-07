@@ -1,35 +1,152 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, TextInput, ListView, Navigator, TouchableHighlight, PickerIOS, ActivityIndicator } from 'react-native';
 
 var SearchResults = require('./SearchResults');
+var CategoryDetail = require('./CategoryDetail');
+
+var PickerItemIOS = PickerIOS.Item;
+
+var REQUEST_URL = "http://localhost:3000/users/search"
+
+var INTERESTS = {
+    interests: ['Sports', 'Music', 'Food', 'Fitness', 'Politics', 'Books']
+  }
+
+class SearchPeople extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            interest: '',
+            zipcode: '',
+            isLoading: false,
+            interestSelection: "Food",
+            errorMessage: '',
+            isLoading: true,
+            dataSource: new ListView.DataSource({
+               rowHasChanged: (row1, row2) => row1 !== row2
+            })
+        };
+    }
+
+render() {
+        var interest = INTERESTS[this.state.interestSelection];
+        var spinner = this.state.isLoading ?
+            ( <ActivityIndicator
+                hidden='true'
+                size='large'/> ) :
+            ( <View/>);
+
+        return (
+            <View style={styles.container}>
+                <Text style={styles.instructions}>Search People Nearby With Your Interests</Text>
+                <View>
+                        <PickerIOS
+                            selectedValue = {this.state.interestSelection}
+                            onValueChange={(interestSelection) => this.setState({interestSelection})}>
+                              <PickerItemIOS
+                                value={"Sports"}
+                                label={"Sports"}
+                            />
+                            <PickerItemIOS
+                                value={"Music"}
+                                label={"Music"}
+                            />
+                            <PickerItemIOS
+                                value={"Food"}
+                                label={"Food"}
+                            />
+                            <PickerItemIOS
+                                value={"Fitness"}
+                                label={"Fitness"}
+                            />
+                            <PickerItemIOS
+                                value={"Politics"}
+                                label={"Politics"}
+                            />
+                            <PickerItemIOS
+                                value={"Books"}
+                                label={"Books"}
+                            />
+                        </PickerIOS>
+                </View>
+                <View>
+                    <TextInput style={styles.input} placeholder="Zip Code" onChangeText={(val) => this.setState({zipcode: val})}/>
+                </View>
+                <TouchableHighlight style={styles.button}
+                                    underlayColor='#f1c40f'
+                                    onPress={this.searchPeople.bind(this)}>
+                    <Text style={styles.buttonText}>Search</Text>
+                </TouchableHighlight>
+                <Text style={styles.errorMessage}>{this.state.errorMessage}</Text>
+            </View>
+        );
+    }
+
+    interestInput(event) {
+        this.setState({ interest: event.nativeEvent.text });
+    }
+
+    zipcodeInput(event) {
+        this.setState({ bookAuthor: event.nativeEvent.text });
+    }
+
+    searchPeople() {
+        this.fetchUsers();
+    }
+
+
+    fetchUsers(){
+       fetch(REQUEST_URL, {
+        method: "post",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+            body: JSON.stringify({
+            zipcode: this.state.zipcode,
+            interest: this.state.interestSelection
+            })
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+            this.setState({ isLoading: false});
+            this.props.navigator.push({
+               title: "Search Results",
+               component: SearchResults,
+               passProps: {responseData}
+            });
+        })
+        .done();
+    }
+
+}
 
 var styles = StyleSheet.create({
     container: {
         marginTop: 65,
         padding: 10
     },
-    searchInput: {
-        height: 36,
+    input: {
+        height: 50,
         marginTop: 10,
-        marginBottom: 10,
+        padding: 4,
         fontSize: 18,
         borderWidth: 1,
-        flex: 1,
-        borderRadius: 4,
-        padding: 5
+        borderColor: '#48bbec',
     },
     button: {
-        height: 36,
-        backgroundColor: '#f39c12',
-        borderRadius: 8,
-        justifyContent: 'center',
-        marginTop: 15
+        height: 50,
+        backgroundColor: '#48BBEC',
+        alignSelf: 'stretch',
+        marginTop: 10,
+        justifyContent: 'center'
     },
     buttonText: {
-        fontSize: 18,
-        color: 'white',
+        fontSize: 22,
+        color: '#FFF',
         alignSelf: 'center'
     },
     instructions: {
@@ -48,95 +165,5 @@ var styles = StyleSheet.create({
         color: 'red'
     }
 });
-
-class SearchPeople extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            interest: '',
-            zipcode: '',
-            isLoading: false,
-            errorMessage: ''
-        };
-    }
-
-render() {
-        var spinner = this.state.isLoading ?
-            ( <ActivityIndicator
-                hidden='true'
-                size='large'/> ) :
-            ( <View/>);
-        return (
-            <View style={styles.container}>
-                <Text style={styles.instructions}>Search People Nearby With Your Interests</Text>
-                <View>
-                    <Text style={styles.fieldLabel}>Interest:</Text>
-                    <TextInput style={styles.searchInput} onChange={this.interestInput.bind(this)}/>
-                </View>
-                <View>
-                    <Text style={styles.fieldLabel}>Zipcode:</Text>
-                    <TextInput style={styles.searchInput} onChange={this.zipcodeInput.bind(this)}/>
-                </View>
-                <TouchableHighlight style={styles.button}
-                                    underlayColor='#f1c40f'
-                                    onPress={this.searchPeople.bind(this)}>
-                    <Text style={styles.buttonText}>Search</Text>
-                </TouchableHighlight>
-                {spinner}
-                <Text style={styles.errorMessage}>{this.state.errorMessage}</Text>
-            </View>
-        );
-    }
-
-    interestInput(event) {
-        this.setState({ interest: event.nativeEvent.text });
-    }
-
-    zipcodeInput(event) {
-        this.setState({ bookAuthor: event.nativeEvent.text });
-    }
-
-    searchPeople() {
-        this.fetchData();
-    }
-
-    fetchData() {
-
-        this.setState({ isLoading: true });
-
-        var baseURL = 'http://localhost:3000/users';
-        if (this.state.interest !== '') {
-            baseURL += encodeURIComponent('inauthor:' + this.state.interest);
-        }
-        if (this.state.zipcode !== '') {
-            baseURL += (this.state.interest === '') ? encodeURIComponent('intitle:' + this.state.zipcode) : encodeURIComponent('+intitle:' + this.state.bookTitle);
-        }
-
-        console.log('URL: >>> ' + baseURL);
-        fetch(baseURL)
-            .then((response) => response.json())
-            .then((responseData) => {
-                this.setState({ isLoading: false});
-                if (responseData.items) {
-
-                    this.props.navigator.push({
-                        title: 'Search Results',
-                        component: SearchResults,
-                        passProps: {users: responseData.items}
-                    });
-                } else {
-                    this.setState({ errorMessage: 'No results found'});
-                }
-            })
-            .catch(error =>
-                this.setState({
-                    isLoading: false,
-                    errorMessage: error
-                }))
-            .done();
-    }
-
-}
 
 module.exports = SearchPeople;
