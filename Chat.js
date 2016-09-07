@@ -4,13 +4,15 @@ import React, { Component } from 'react';
 import { NavigatorIOS, StyleSheet, View, Text } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 
+var REQUEST_URL = 'http://localhost:3000/conversations';
 
 class Chat extends Component {
     constructor(props) {
         super(props);
         this.state = {
             messages: [],
-
+            sender_id: 4,
+            recipient_id: 5,
         };
         this.onSend = this.onSend.bind(this);
     }
@@ -70,22 +72,46 @@ class Chat extends Component {
         });
     }
 
+    fetchConvo(senderId, recipientId, message){
+        debugger
+        fetch(REQUEST_URL, {
+
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+                body: JSON.stringify({
+                sender_id: senderId,
+                recipient_id: recipientId,
+                message: message,
+
+            })
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(responseData),
+                isLoading: false
+            });
+        })
+        .done();
+    }
+
+
     onSend(messages = []) {
         this.setState((previousState) => {
             return {
                 messages: GiftedChat.append(previousState.messages, messages),
+
             };
         });
     }
-
+// onSend={this.onSend}
     render() {
         return (
             <View style={styles.container}>
-                <GiftedChat
-                    messages={this.state.messages}
-                    onSend={this.onSend}
-                    user={{_id: 1}}
-                />
+                <GiftedChat messages={this.state.messages} onSend={() => this.fetchConvo(4, 5, this.state.TextInput)} user={{_id: 1}}/>
             </View>
         );
     }
@@ -95,9 +121,10 @@ class Chat extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 2,
+        flex: 1,
         marginTop: 50,
-    }
+        marginBottom: 50,
+    },
 });
 
 module.exports = Chat;
