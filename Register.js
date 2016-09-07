@@ -8,9 +8,9 @@ import { View,
          TouchableHighlight,
          AlertIOS } from 'react-native';
 
+const ACCESS_TOKEN = 'access_token';
 
-
-export default class Register extends Component {
+class Register extends Component {
  constructor() {
     super ();
       this.state = {
@@ -18,27 +18,51 @@ export default class Register extends Component {
         email: "",
         password: "",
         password_confirmation: "",
-        errors: []
+        errors: [],
+        showProgress: false,
       }
     }
 
-  onRegisterPressed() {
-
-    fetch('http://localhost:3000/users', {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body:JSON.stringify({username: this.state.username, email: this.state.email, password: this.state.password})
-    }).then((response) => response.json())
-    .then((responseData) => { AlertIOS.alert(
-      "Get Response",
-      "Name:" + responseData.username + " Email:" + responseData.email
-      );
-    })
-      .done();
+  redirect(routeName, accessToken){
+    this.props.navigator.push({
+      name: routeName
+    });
   }
+
+  async storeToken(accessToken){
+      try {
+        await AsyncStorage.setItem(ACCESS_TOKEN, accessToken);
+        console.log("Token was stored successfully");
+      } catch(error){
+        console.log("Something went wrong");
+      }
+    }
+
+  async onRegisterPressed() {
+    try {
+      let response = await fetch('http://localhost:3000/users', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body:JSON.stringify({username: this.state.username, email: this.state.email, password: this.state.password})
+      })
+      let res = await response.text();
+      if (response.status >= 200 && response.status < 300){
+        let accessToken = res;
+        console.log(accessToken);
+        this.storeToken(accessToken)
+        this.redirect('featured', accessToken);
+      } else {
+        let error = res;
+        throw error;
+      }
+    } catch(errors) {
+
+      }
+    }
+
 
   render() {
     return (
