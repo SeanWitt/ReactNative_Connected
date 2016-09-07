@@ -1,30 +1,11 @@
 'use strict';
 
-var BookDetail = require('./UserDetail');
+var UserDetail = require('./UserDetail');
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, ListView, Navigator, TouchableHighlight, PickerIOS, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, Image, TextInput, ListView, Navigator, TouchableHighlight, PickerIOS, ActivityIndicator } from 'react-native';
 
 var styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    title: {
-        fontSize: 20,
-        marginBottom: 8
-    },
-    author: {
-        color: '#656565'
-    },
-    separator: {
-        height: 1,
-        backgroundColor: '#dddddd'
-    },
-    listView: {
-        backgroundColor: '#F5FCFF'
-    },
-    cellContainer: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -39,7 +20,26 @@ var styles = StyleSheet.create({
     },
     rightContainer: {
         flex: 1
-    }
+    },
+    title: {
+        fontSize: 20,
+        marginBottom: 8
+    },
+    author: {
+        color: '#656565'
+    },
+    separator: {
+       height: 1,
+       backgroundColor: '#dddddd'
+   }, listView: {
+       backgroundColor: '#F5FCFF',
+       marginTop: 65,
+   },
+   loading: {
+       flex: 1,
+       alignItems: 'center',
+       justifyContent: 'center'
+   }
 });
 
 class SearchResults extends Component {
@@ -49,12 +49,11 @@ class SearchResults extends Component {
         var dataSource = new ListView.DataSource(
             {rowHasChanged: (row1, row2) => row1 !== row2});
         this.state = {
-            dataSource: dataSource.cloneWithRows(this.props.responseData.user)
+            dataSource: dataSource.cloneWithRows(this.props.responseData)
         };
     }
 
     render() {
-
         return (
             <ListView
                 dataSource={this.state.dataSource}
@@ -64,23 +63,34 @@ class SearchResults extends Component {
         );
     }
 
-    renderUser(user) {
-
-        return (
-            <TouchableHighlight onPress={() => this.showUserDetail(user)}
-                                underlayColor='#dddddd'>
-            </TouchableHighlight>
-        );
-    }
-
     showUserDetail(user) {
-
         this.props.navigator.push({
             title: user.username,
             component: UserDetail,
             passProps: {user}
         });
     }
+
+    renderUser(user) {
+        return (
+            <TouchableHighlight onPress={() => this.showUserDetail(user)}  underlayColor='#dddddd'>
+                <View>
+                    <View style={styles.container}>
+                        <Image
+                            source={{uri: user.image_url}}
+                            style={styles.thumbnail} />
+                                <View style={styles.rightContainer}>
+                                    <Text style={styles.title}>{user.username}</Text>
+                                </View>
+                        </View>
+                    <View style={styles.separator} />
+                </View>
+            </TouchableHighlight>
+     );
+    }
+
+
+
 
 }
 
