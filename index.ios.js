@@ -5,7 +5,7 @@ var Featured = require('./Featured');
 var Search = require('./Search');
 var Contacts = require('./Contacts');
 var Register = require('./Register');
-
+var Downloads = require('./Downloads');
 
 
 class Connected extends Component {
@@ -61,9 +61,20 @@ class Connected extends Component {
                     }}>
                     <Register/>
                 </TabBarIOS.Item>
+                <TabBarIOS.Item
+                systemIcon="downloads"
+
+                    selected={this.state.selectedTab === 'downloads'}
+                    onPress={() => {
+                        this.setState({
+                            selectedTab: 'downloads'
+                        });
+                    }}>
+                    <Downloads/>
+                </TabBarIOS.Item>
             </TabBarIOS>
         );
     }
 }
 
-AppRegistry.registerComponent('bookfinder', () => Connected);
+AppRegistry.registerComponent('Connected', () => Connected);
