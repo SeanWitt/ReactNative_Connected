@@ -13,7 +13,7 @@ class Chat extends Component {
             messages: [],
             sender_id: 4,
             recipient_id: 5,
-            message: 'test',
+            message: '',
         };
         this.onSend = this.onSend.bind(this);
     }
@@ -73,7 +73,7 @@ class Chat extends Component {
         });
     }
 
-    fetchConvo(senderId, recipientId){
+    fetchConvo(senderId, recipientId, messages){
         fetch(REQUEST_URL, {
 
             method: "post",
@@ -84,7 +84,7 @@ class Chat extends Component {
                 body: JSON.stringify({
                 sender_id: senderId,
                 recipient_id: recipientId,
-                message: this.state.message,
+                message: messages
 
             })
         })
@@ -100,26 +100,30 @@ class Chat extends Component {
 
 
     onSend(messages = []) {
-        this.setState((previousState) => {
-            return {
-                messages: GiftedChat.append(previousState.messages, messages),
-
-
-            };
-        });
+        this.setState({message: messages[0].text})
+        // console.log(this.state.message)
+        this.fetchConvo(4, 5, messages[0].text)
+        // this.setState((previousState) => {
+        //     return {
+        //         messages: GiftedChat.append(previousState.messages, messages),
+        //     };
+        // });
     }
-// onSend={this.onSend}
+                // onSend={this.onSend}
+                // onChangeText={(message) => this.setState({message})}
+                // {() => this.fetchConvo(4, 5), this.setState({message})}
+                // onSend={() => this.fetchConvo(4, 5, this.state.messages)}
     render() {
         return (
             <View style={styles.container}>
-                <GiftedChat messages={this.state.messages} onChangeText={(val) => this.state.setState({message: val})} onSend={() => this.fetchConvo(4, 5)} user={{_id: 1}}/>
+                <GiftedChat messages={this.state.messages} onSend={this.onSend} user={{_id: 1}}/>
             </View>
         );
     }
 
 
 }
-
+// (val) =>this.setState({email: val})
 const styles = StyleSheet.create({
     container: {
         flex: 1,
