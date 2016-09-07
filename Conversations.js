@@ -1,12 +1,12 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Image, StyleSheet, View, Text, ListView, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { Image, StyleSheet, View, Text, Navigator, ListView, TouchableHighlight, ActivityIndicator } from 'react-native';
 
-var CategoryDetail = require('./CategoryDetail');
+var Chat = require('./Chat');
 
 
-var REQUEST_URL = 'http://localhost:3000/interests';
+var REQUEST_URL = 'http://localhost:3000/conversations';
 
 var styles = StyleSheet.create({
     container: {
@@ -46,7 +46,7 @@ var styles = StyleSheet.create({
    }
 });
 
-class CategoriesList extends Component {
+class Conversations extends Component {
     constructor(props) {
            super(props);
            this.state = {
@@ -62,15 +62,15 @@ class CategoriesList extends Component {
     }
 
     fetchData() {
-       fetch(REQUEST_URL)
-       .then((response) => response.json())
-       .then((responseData) => {
-           this.setState({
-               dataSource: this.state.dataSource.cloneWithRows(responseData),
-               isLoading: false
-           });
-       })
-       .done();
+      fetch(REQUEST_URL)
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(responseData),
+            isLoading: false
+        });
+      })
+      .done();
    }
 
 
@@ -83,7 +83,7 @@ class CategoriesList extends Component {
          return (
               <ListView
                   dataSource={this.state.dataSource}
-                  renderRow={this.renderInterest.bind(this)}
+                  renderRow={this.renderConversation.bind(this)}
                   style={styles.listView}
                   />
           );
@@ -95,33 +95,29 @@ class CategoriesList extends Component {
               <ActivityIndicator
                   size='large'/>
               <Text>
-                  Loading Categories...
+                  Loading Conversations...
               </Text>
           </View>
       );
   }
 
-  showInterestDetail(interest) {
-    debugger
+  showConversationDetail(conversation) {
        this.props.navigator.push({
-           title: "People near you that like " + interest.name,
-           component: CategoryDetail,
-           passProps: {interest}
+           title: "Your Conversations",
+           component: Chat,
+           passProps: {conversation}
        });
   }
 
 
 
-  renderInterest(interest) {
+  renderConversation(conversation) {
      return (
-          <TouchableHighlight onPress={() => this.showInterestDetail(interest)}  underlayColor='#dddddd'>
+          <TouchableHighlight onPress={() => this.showConversationDetail(conversation)}  underlayColor='#dddddd'>
               <View>
                   <View style={styles.container}>
-                      <Image
-                          source={{uri: interest.image_url}}
-                          style={styles.thumbnail} />
                       <View style={styles.rightContainer}>
-                          <Text style={styles.title}>{interest.name}</Text>
+                          <Text style={styles.title}>{conversation.recipient_id}</Text>
                       </View>
                   </View>
                   <View style={styles.separator} />
@@ -131,4 +127,4 @@ class CategoriesList extends Component {
    }
 }
 
-module.exports = CategoriesList;
+module.exports = Conversations;
