@@ -8,45 +8,44 @@ var REQUEST_URL = 'http://localhost:3000/users/';
 var styles = StyleSheet.create({
     container: {
         marginTop: 65,
-        backgroundColor: '#F5FCFF',
-        padding: 10
+        padding: 30
     },
     thumbnail: {
-        width: 53,
-        height: 81,
-        marginRight: 10
-    },
-    rightContainer: {
-        flex: 1
+      width: 200,
+      height: 150,
+      marginLeft: 60,
+      borderWidth: 1,
+      borderColor: "black",
+      marginTop: 30
     },
     title: {
-        fontSize: 15,
-        marginBottom: 8,
-        alignItems: 'flex-end'
+      flex: 1,
+      fontSize: 25,
+      marginTop: 10,
+      marginBottom: 8,
     },
     image: {
-        width: 107,
-        height: 165,
-        padding: 10
+      width: 107,
+      height: 165,
+      padding: 10
     },
     description: {
-        padding: 10,
-        fontSize: 15,
-        color: '#656565'
+      padding: 10,
+      fontSize: 15,
+      color: '#656565'
     },
-    separator: {
-       height: 1,
-       backgroundColor: '#dddddd'
+    button: {
+      height: 50,
+      backgroundColor: '#48BBEC',
+      alignSelf: 'stretch',
+      marginTop: 10,
+      justifyContent: 'center'
     },
-    listView: {
-       backgroundColor: '#F5FCFF',
-       marginTop: 65,
-    },
-    loading: {
-       flex: 1,
-       alignItems: 'center',
-       justifyContent: 'center'
-    }
+    buttonText: {
+      fontSize: 22,
+      color: '#FFF',
+      alignSelf: 'center'
+  }
 });
 
 
@@ -95,13 +94,28 @@ class UserDetail extends Component {
               <View style={styles.container}>
                 <Image source={{uri: user.image_url}}
                   style={styles.thumbnail} />
-                  <Text style={styles.title}>
-                    {user.username}
-                  </Text>
+                  <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',}}>
+                      <Text  style={styles.title}>
+                         {user.username}
+                      </Text>
+                      <Text>
+                         {user.bio}
+                      </Text>
+                      <TouchableHighlight style={styles.button} onPress={this.onMessagePressed.bind(this)}>
+                      <Text style={styles.buttonText}>
+                        Message {user.name}
+                      </Text>
+                      </TouchableHighlight>
+                  </View>
+
               </View>
           );
     }
 
+
+    onMessagePressed(){
+
+    }
 
     renderLoadingView() {
       return (
