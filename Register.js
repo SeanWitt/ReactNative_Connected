@@ -8,20 +8,22 @@ import { View,
          TouchableHighlight,
          AlertIOS } from 'react-native';
 
+// Need access_token from back-end user model/table
 const ACCESS_TOKEN = 'access_token';
 
 class Register extends Component {
  constructor() {
     super ();
-      this.state = {
-        username: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-        errors: [],
-        showProgress: false,
-      }
+
+    this.state = {
+      username: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+      errors: [],
+      showProgress: false,
     }
+  }
 
   redirect(routeName, accessToken){
     this.props.navigator.push({
@@ -39,6 +41,7 @@ class Register extends Component {
     }
 
   async onRegisterPressed() {
+    this.setState({showProgress: true})
     try {
       let response = await fetch('http://localhost:3000/users', {
         method: 'post',
@@ -46,9 +49,15 @@ class Register extends Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body:JSON.stringify({username: this.state.username, email: this.state.email, password: this.state.password})
+        body: JSON.stringify({
+            username: this.state.username,
+            email: this.state.email,
+            password: this.state.password,
+            password_confirmation: this.state.password_confirmation
+        })
       })
       let res = await response.text();
+      console.log(res);
       if (response.status >= 200 && response.status < 300){
         let accessToken = res;
         console.log(accessToken);
@@ -59,9 +68,22 @@ class Register extends Component {
         throw error;
       }
     } catch(errors) {
-
+      //errors are in JSON form so we must parse them first.
+      let formErrors = JSON.parse(errors);
+      //We will store all the errors in the array.
+      let errorsArray = [];
+      for(var key in formErrors) {
+        //If array is bigger than one we need to split it.
+        if(formErrors[key].length > 1) {
+            formErrors[key].map(error => errorsArray.push(`${key} ${error}`));
+        } else {
+            errorsArray.push(`${key} ${formErrors[key]}`);
+        }
       }
+      this.setState({errors: errorsArray})
+      this.setState({showProgress: false})
     }
+  }
 
 
   render() {
