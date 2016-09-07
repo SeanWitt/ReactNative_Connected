@@ -48,7 +48,6 @@ class SearchResults extends Component {
         super(props);
         var dataSource = new ListView.DataSource(
             {rowHasChanged: (row1, row2) => row1 !== row2});
-        debugger
         this.state = {
             dataSource: dataSource.cloneWithRows(this.props.responseData.user)
         };
@@ -70,7 +69,6 @@ class SearchResults extends Component {
         return (
             <TouchableHighlight onPress={() => this.showUserDetail(user)}
                                 underlayColor='#dddddd'>
-
             </TouchableHighlight>
         );
     }
