@@ -13,6 +13,7 @@ class Chat extends Component {
             messages: [],
             sender_id: 4,
             recipient_id: 5,
+            message: 'test',
         };
         this.onSend = this.onSend.bind(this);
     }
@@ -72,8 +73,7 @@ class Chat extends Component {
         });
     }
 
-    fetchConvo(senderId, recipientId, message){
-        debugger
+    fetchConvo(senderId, recipientId){
         fetch(REQUEST_URL, {
 
             method: "post",
@@ -84,7 +84,7 @@ class Chat extends Component {
                 body: JSON.stringify({
                 sender_id: senderId,
                 recipient_id: recipientId,
-                message: message,
+                message: this.state.message,
 
             })
         })
@@ -104,6 +104,7 @@ class Chat extends Component {
             return {
                 messages: GiftedChat.append(previousState.messages, messages),
 
+
             };
         });
     }
@@ -111,7 +112,7 @@ class Chat extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <GiftedChat messages={this.state.messages} onSend={() => this.fetchConvo(4, 5, this.state.TextInput)} user={{_id: 1}}/>
+                <GiftedChat messages={this.state.messages} onChangeText={(val) => this.state.setState({message: val})} onSend={() => this.fetchConvo(4, 5)} user={{_id: 1}}/>
             </View>
         );
     }
