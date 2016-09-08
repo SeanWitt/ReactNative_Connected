@@ -18,7 +18,7 @@ class Search extends Component {
             <NavigatorIOS
                 style={styles.container}
                 initialRoute={{
-            title: 'Find Friends',
+            title: 'Search For Friends By Interests',
             component: SearchPeople
         }}/>
         );
