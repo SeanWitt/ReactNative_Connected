@@ -1,25 +1,39 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { NavigatorIOS, StyleSheet, View, Text } from 'react-native';
+import { NavigatorIOS, StyleSheet, View, Text, AsyncStorage } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 
+const ACCESS_TOKEN = 'access_token'
 var REQUEST_URL = 'http://localhost:3000/conversations';
-var FETCH_MESSAGES_URL = 'http://localhost:3000/conversations/';
+var FETCH_MESSAGES_URL = 'http://localhost:3000/users/';
 
 class Chat extends Component {
+
+
     constructor(props) {
+
+
         super(props);
         this.state = {
             messages: [],
-            sender_id: 1,
+            sender_id: null,
+
             recipient_id: this.props.receiving_user.id,
         };
         this.onSend = this.onSend.bind(this);
     }
 
-    componentWillMount() {
-        this.fetchConversation(1).then((responseData) => {
+
+    async componentWillMount() {
+        try {
+            let userId = await AsyncStorage.getItem(ACCESS_TOKEN);
+            this.setState({sender_id: JSON.parse(userId).id})
+        } catch (error) {
+            alertIOS("No User Logged In")
+        }
+
+        this.fetchConversation(this.state.sender_id).then((responseData) => {
              this.renderConversation(responseData)
         })
     }
@@ -30,7 +44,7 @@ class Chat extends Component {
         var user_id = " "
         var messageToRender = {}
         for (var i = 0; i < apiMessages.length; i ++) {
-            if (apiMessages[i].user_id == 1) {
+            if (apiMessages[i].user_id == this.state.sender_id) {
                 user_id = 1
             }else{
                 user_id = 2
@@ -46,12 +60,12 @@ class Chat extends Component {
     fetchConversation(senderId){
         var sender = senderId.toString()
 
-        return fetch(FETCH_MESSAGES_URL + sender)
+        return fetch(FETCH_MESSAGES_URL + sender + "/messageswith/" + this.state.recipient_id.toString())  ///goes to SHOW route
         .then((response) => response.json())
     }
 
     addMessage(senderId, recipientId, messages){
-        return fetch(REQUEST_URL, {
+        return fetch(REQUEST_URL, {  ////////goes to CREATE route
 
             method: "post",
             headers: {

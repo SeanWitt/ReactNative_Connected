@@ -103,7 +103,7 @@ class UserDetail extends Component {
                       <Text>
                          {user.bio}
                       </Text>
-                      <TouchableHighlight style={styles.button} onPress={this.messageUser.bind(this)}>
+                      <TouchableHighlight style={styles.button} onPress={() => this.messageUser(user) }>
                       <Text style={styles.buttonText}>
                         Message {user.name}
                       </Text>
@@ -115,7 +115,7 @@ class UserDetail extends Component {
     }
 
       messageUser(receiving_user) {
-        debugger
+
        this.props.navigator.push({
            title: "New Message" ,
            component: Chat,
