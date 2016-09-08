@@ -5,7 +5,7 @@ var Featured = require('./Featured');
 var Search = require('./Search');
 var Contacts = require('./Contacts');
 var Register = require('./Register');
-var Chat = require('./Chat');
+var Messages = require('./Messages');
 
 
 class Connected extends Component {
@@ -73,7 +73,7 @@ class Connected extends Component {
                             notifCount: this.state.notifcount + 1,
                         });
                     }}>
-                    <Chat/>
+                    <Messages/>
                 </TabBarIOS.Item>
             </TabBarIOS>
         );

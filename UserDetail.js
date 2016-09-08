@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, View, Text, ListView, TouchableHighlight, ActivityIndicator } from 'react-native';
 
+var Chat = require('./Chat');
+
 var REQUEST_URL = 'http://localhost:3000/users/';
 
 var styles = StyleSheet.create({
@@ -101,7 +103,7 @@ class UserDetail extends Component {
                       <Text>
                          {user.bio}
                       </Text>
-                      <TouchableHighlight style={styles.button} onPress={this.onMessagePressed.bind(this)}>
+                      <TouchableHighlight style={styles.button} onPress={this.messageUser.bind(this)}>
                       <Text style={styles.buttonText}>
                         Message {user.name}
                       </Text>
@@ -112,10 +114,14 @@ class UserDetail extends Component {
           );
     }
 
+      messageUser(user) {
+       this.props.navigator.push({
+           title: "New Message" ,
+           component: Chat,
+           passProps: {user}
+       });
+  }
 
-    onMessagePressed(){
-
-    }
 
     renderLoadingView() {
       return (
