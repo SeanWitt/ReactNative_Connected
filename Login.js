@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View,
          Text,
          StyleSheet,
+         Image,
          TextInput,
          TouchableHighlight,
          ActivityIndicator,
@@ -97,15 +98,17 @@ class Login extends Component {
 
   render() {
     return (
+      <Image source={{uri: "https://snap-photos.s3.amazonaws.com/img-thumbs/960w/13ZNX2TLX0.jpg"}} style={styles.backgroundImage}>
        <View style = {styles.container}>
         <TextInput
           onChangeText={(val) => this.setState({email: val})}
-          style={styles.input} placeholder="Email">
+          style={styles.input} placeholder="Email" placeholderTextColor='#44A1A0'>
         </TextInput>
         <TextInput
           onChangeText={(val) => this.setState({password: val})}
           style={styles.input}
           placeholder="Password"
+          placeholderTextColor='#44A1A0'
           secureTextEntry={true}>
         </TextInput>
         <TouchableHighlight style={styles.button} onPress={this.onLoginPressed.bind(this)}>
@@ -120,14 +123,14 @@ class Login extends Component {
 
         <ActivityIndicator animating={this.state.showProgress} size="large" style={styles.loader} />
       </View>
+      </Image>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
     marginTop: 40,
     marginLeft: 10,
     marginRight: 10
@@ -138,22 +141,34 @@ const styles = StyleSheet.create({
     padding: 4,
     fontSize: 18,
     borderWidth: 1,
-    borderColor: '#48bbec',
+    backgroundColor: '#FFFFFA',
+    borderColor: "#44A1A0",
+    borderRadius: 5,
   },
-    button: {
+  placeholderTextColor: {
+    color: '#FFFFFA',
+  },
+  button: {
     height: 50,
-    backgroundColor: '#48BBEC',
+    backgroundColor: "#44A1A0",
     alignSelf: 'stretch',
     marginTop: 10,
+    borderRadius: 5,
     justifyContent: 'center'
   },
   buttonText: {
     fontSize: 22,
-    color: '#FFF',
+    color: '#FFFFFA',
     alignSelf: 'center'
   },
   heading: {
     fontSize: 30,
+  },
+  backgroundImage: {
+    flex: 1,
+    alignSelf: 'stretch',
+    width: null,
+    height: 600
   },
   error: {
     color: 'red',
