@@ -5,7 +5,6 @@ import { Image, StyleSheet, View, Text, Navigator, ListView, TouchableHighlight,
 
 var Chat = require('./Chat');
 
-
 var REQUEST_URL = 'http://localhost:3000/conversations';
 
 var styles = StyleSheet.create({
@@ -103,7 +102,7 @@ class Conversations extends Component {
 
   showConversationDetail(receiving_user) {
        this.props.navigator.push({
-           title: "Your Conversations",
+           title: receiving_user.username,
            component: Chat,
            passProps: {receiving_user}
        });
@@ -111,13 +110,14 @@ class Conversations extends Component {
 
 
 
-  renderConversation(user) {
+  renderConversation(userRecipient) {
      return (
-          <TouchableHighlight onPress={() => this.showConversationDetail(user)}  underlayColor='#dddddd'>
+          <TouchableHighlight onPress={() => this.showConversationDetail(userRecipient)}  underlayColor='#dddddd'>
               <View>
                   <View style={styles.container}>
+                    <Image source={{uri: userRecipient.image_url}} style={styles.thumbnail} />
                       <View style={styles.rightContainer}>
-                          <Text style={styles.title}>{user.username}</Text>
+                          <Text style={styles.title}>{userRecipient.username}</Text>
                       </View>
                   </View>
                   <View style={styles.separator} />

@@ -40,7 +40,7 @@ class Connected extends Component {
         return (
             <View style={styles.container}>
                 <Navigator
-                    initialRoute={{name: 'welcomepage'}}
+                    initialRoute={{name: 'bottomtabbar'}}
                     renderScene={this.renderScene.bind(this)}
                 />
             </View>
