@@ -18,8 +18,8 @@ class Messages extends React.Component {
             <NavigatorIOS
                 style={styles.container}
                 initialRoute={{
-            title: 'Messages',
-            component: Conversations
+                    title: 'Messages',
+                    component: Conversations
             }}/>
         );
     }
