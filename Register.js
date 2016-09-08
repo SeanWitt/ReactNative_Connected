@@ -8,6 +8,9 @@ import { View,
          TouchableHighlight,
          AlertIOS } from 'react-native';
 
+import Featured from './Featured';
+import BottomTabBar from './BottomTabBar';
+
 // Need access_token from back-end user model/table
 const ACCESS_TOKEN = 'access_token';
 
@@ -50,10 +53,12 @@ class Register extends Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          user:{
             username: this.state.username,
             email: this.state.email,
             password: this.state.password,
             password_confirmation: this.state.password_confirmation
+          }
         })
       })
       let res = await response.text();
@@ -62,10 +67,10 @@ class Register extends Component {
         let accessToken = res;
         console.log(accessToken);
         this.storeToken(accessToken)
-        this.redirect('featured', accessToken);
+        this.redirect('bottomtabbar', accessToken);
       } else {
-        let error = res;
-        throw error;
+        let errors = res;
+        throw errors;
       }
     } catch(errors) {
       //errors are in JSON form so we must parse them first.
@@ -80,6 +85,7 @@ class Register extends Component {
             errorsArray.push(`${key} ${formErrors[key]}`);
         }
       }
+      console.log(errorsArray)
       this.setState({errors: errorsArray})
       this.setState({showProgress: false})
     }
@@ -115,9 +121,19 @@ class Register extends Component {
           Register
         </Text>
         </TouchableHighlight>
+
+        <Errors errors={this.state.errors} />
       </View>
     );
   }
+}
+
+const Errors = (props) => {
+  return (
+    <View>
+      {props.errors.map((error, i)=> <Text key={i} style={styles.error}>{error}</Text>)}
+    </View>
+  );
 }
 
 
