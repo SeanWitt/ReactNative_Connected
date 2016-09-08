@@ -5,7 +5,6 @@ import { Image, StyleSheet, View, Text, Navigator, ListView, TouchableHighlight,
 
 var Chat = require('./Chat');
 
-
 var REQUEST_URL = 'http://localhost:3000/conversations';
 
 var styles = StyleSheet.create({
