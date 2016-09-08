@@ -111,13 +111,13 @@ class Conversations extends Component {
 
 
 
-  renderConversation(user) {
+  renderConversation(userRecipient) {
      return (
-          <TouchableHighlight onPress={() => this.showConversationDetail(user)}  underlayColor='#dddddd'>
+          <TouchableHighlight onPress={() => this.showConversationDetail(userRecipient)}  underlayColor='#dddddd'>
               <View>
                   <View style={styles.container}>
                       <View style={styles.rightContainer}>
-                          <Text style={styles.title}>{user.username}</Text>
+                          <Text style={styles.title}>{userRecipient.username}</Text>
                       </View>
                   </View>
                   <View style={styles.separator} />
