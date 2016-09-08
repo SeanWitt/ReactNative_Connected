@@ -85,7 +85,7 @@ class Chat extends Component {
 
     onSend(messages = []) {
         this.addMessage(this.state.sender_id, this.state.recipient_id, messages[0].text).then(() =>
-            this.fetchConversation(1).then((responseData) => {
+            this.fetchConversation(this.state.sender_id).then((responseData) => {
                 this.renderConversation(responseData)
             })
         )
