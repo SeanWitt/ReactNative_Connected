@@ -3,6 +3,7 @@ import { View,
          Text,
          StyleSheet,
          TextInput,
+         Image,
          TouchableHighlight,
          AlertIOS } from 'react-native';
 
@@ -56,30 +57,32 @@ export default class Register extends Component {
 
   render() {
     return (
-
+      <Image source={{uri: "https://snap-photos.s3.amazonaws.com/img-thumbs/960w/W42GD64HOM.jpg"}} style={styles.backgroundImage}>
        <View style = {styles.container}>
         <TextInput
           onChangeText={(val) => this.setState({email: val})}
-          style={styles.input} placeholder="Email">
+          style={styles.input} placeholder="Email" placeholderTextColor='#44A1A0'>
         </TextInput>
         <TextInput
           onChangeText={(val) => this.setState({name: val})}
-          style={styles.input} placeholder="Name">
+          style={styles.input} placeholder="Name" placeholderTextColor="#44A1A0">
         </TextInput>
         <TextInput
           onChangeText={(val) => this.setState({password: val})}
-          style={styles.input} placeholder="Password">
+          style={styles.input} placeholder="Password" placeholderTextColor="#44A1A0">
         </TextInput>
         <TextInput
           onChangeText={(val) => this.setState({password_confirmation: val})}
-          style={styles.input} placeholder="Confirm Password">
+          style={styles.input} placeholder="Confirm Password" placeholderTextColor="#44A1A0">
           </TextInput>
         <TouchableHighlight style={styles.button} onPress={this.onRegisterPressed.bind(this)}>
         <Text style={styles.buttonText}>
           Register
         </Text>
         </TouchableHighlight>
+
       </View>
+      </Image>
     );
   }
 }
@@ -88,7 +91,6 @@ export default class Register extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
     marginTop: 40,
     marginLeft: 10,
     marginRight: 10
@@ -98,23 +100,35 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 4,
     fontSize: 18,
-    borderWidth: 1,
-    borderColor: '#48bbec',
+    // borderWidth: 1,
+    backgroundColor: '#FFFFFA',
+    opacity: .9,
+    borderRadius: 5,
+    // borderColor: "#44A1A0",
   },
-    button: {
+  placeholderTextColor: {
+    color: '#FFFFFA',
+  },
+  button: {
     height: 50,
-    backgroundColor: '#48BBEC',
+    backgroundColor: "#44A1A0",
     alignSelf: 'stretch',
     marginTop: 10,
+    borderRadius: 5,
     justifyContent: 'center'
   },
   buttonText: {
     fontSize: 22,
-    color: '#FFF',
+    color: '#FFFFFA',
     alignSelf: 'center'
   },
   heading: {
     fontSize: 30,
+  },
+  backgroundImage: {
+    flex: 1,
+    alignSelf: 'stretch',
+    width: null,
   },
   error: {
     color: 'red',
