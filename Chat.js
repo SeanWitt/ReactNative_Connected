@@ -10,6 +10,7 @@ class Chat extends Component {
     constructor(props) {
         super(props);
         this.state = {
+
             messages: [],
             sender_id: 1,
             recipient_id: 2,
@@ -95,7 +96,7 @@ class Chat extends Component {
         .then((response) => response.json())
         .then((responseData) => {
             this.setState({
-                conversation:
+                conversation: "balls"
             });
         })
         .done();
