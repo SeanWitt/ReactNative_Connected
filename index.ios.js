@@ -14,9 +14,8 @@ var Register = require('./Register');
 import BottomTabBar from './BottomTabBar';
 import Login from './Login';
 import WelcomePage from './WelcomePage';
-
 var Chat = require('./Chat');
-
+var Messages = require('./Messages');
 
 
 class Connected extends Component {

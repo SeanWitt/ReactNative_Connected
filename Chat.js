@@ -10,16 +10,21 @@ class Chat extends Component {
     constructor(props) {
         super(props);
         this.state = {
+
             messages: [],
-            sender_id: 4,
-            recipient_id: 5,
-            message: 'test',
+            sender_id: 1,
+            recipient_id: 2,
+            message: '',
+            conversation: '',
         };
         this.onSend = this.onSend.bind(this);
     }
 
+
+
     componentWillMount() {
         this.setState({
+
         messages: [
             {_id: 8,
                 text: 'Wow your last text was really informative',
@@ -73,7 +78,7 @@ class Chat extends Component {
         });
     }
 
-    fetchConvo(senderId, recipientId){
+    fetchConvo(senderId, recipientId, messages){
         fetch(REQUEST_URL, {
 
             method: "post",
@@ -84,15 +89,14 @@ class Chat extends Component {
                 body: JSON.stringify({
                 sender_id: senderId,
                 recipient_id: recipientId,
-                message: this.state.message,
+                message: messages
 
             })
         })
         .then((response) => response.json())
         .then((responseData) => {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(responseData),
-                isLoading: false
+                conversation: "balls"
             });
         })
         .done();
@@ -100,26 +104,29 @@ class Chat extends Component {
 
 
     onSend(messages = []) {
-        this.setState((previousState) => {
-            return {
-                messages: GiftedChat.append(previousState.messages, messages),
-
-
-            };
-        });
+        this.setState({message: messages[0].text})
+        this.fetchConvo(this.state.sender_id, this.state.recipient_id, messages[0].text)
+        // this.setState((previousState) => {
+        //     return {
+        //         messages: GiftedChat.append(previousState.messages, messages),
+        //     };
+        // });
     }
-// onSend={this.onSend}
+                // onSend={this.onSend}
+                // onChangeText={(message) => this.setState({message})}
+                // {() => this.fetchConvo(4, 5), this.setState({message})}
+                // onSend={() => this.fetchConvo(4, 5, this.state.messages)}
     render() {
         return (
             <View style={styles.container}>
-                <GiftedChat messages={this.state.messages} onChangeText={(val) => this.state.setState({message: val})} onSend={() => this.fetchConvo(4, 5)} user={{_id: 1}}/>
+                <GiftedChat messages={this.state.messages} onSend={this.onSend} user={{_id: 1}}/>
             </View>
         );
     }
 
 
 }
-
+// (val) =>this.setState({email: val})
 const styles = StyleSheet.create({
     container: {
         flex: 1,
