@@ -11,15 +11,19 @@ class Chat extends Component {
         super(props);
         this.state = {
             messages: [],
-            sender_id: 4,
-            recipient_id: 5,
+            sender_id: 1,
+            recipient_id: 2,
             message: '',
+            conversation: '',
         };
         this.onSend = this.onSend.bind(this);
     }
 
+
+
     componentWillMount() {
         this.setState({
+
         messages: [
             {_id: 8,
                 text: 'Wow your last text was really informative',
@@ -91,8 +95,7 @@ class Chat extends Component {
         .then((response) => response.json())
         .then((responseData) => {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(responseData),
-                isLoading: false
+                conversation:
             });
         })
         .done();
@@ -101,8 +104,7 @@ class Chat extends Component {
 
     onSend(messages = []) {
         this.setState({message: messages[0].text})
-        // console.log(this.state.message)
-        this.fetchConvo(4, 5, messages[0].text)
+        this.fetchConvo(this.state.sender_id, this.state.recipient_id, messages[0].text)
         // this.setState((previousState) => {
         //     return {
         //         messages: GiftedChat.append(previousState.messages, messages),
