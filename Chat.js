@@ -14,7 +14,7 @@ class Chat extends Component {
             messages: [],
             sender_id: 1,
             recipient_id: this.props.receiving_user.id,
-            message: '',
+            // message: '',
             conversation: [],
 
         };
@@ -28,50 +28,7 @@ class Chat extends Component {
 
         })
 
-        // this.setState({
-        // //     conversation: this.fetchConversation(1)
-        // // })
-
-        // // debugger
-        // // this.renderConversation(allMessages)
-        // // this.setState({
-
         // messages: [
-        //     {_id: 8,
-        //         text: 'Wow your last text was really informative',
-        //         createdAt: new Date(),
-        //         user: {_id: 2, name: 'You', avatar: 'https://facebook.github.io/react/img/logo_og.png'}
-        //     },
-
-        //     {_id: 7,
-        //         text: 'You just made this "work"',
-        //         createdAt: new Date(2016, 8, 6, 13, 7),
-        //         user: {_id: 2, name: 'You', avatar: 'https://facebook.github.io/react/img/logo_og.png'}
-        //     },
-
-        //     {_id: 6,
-        //         text: 'More stuff blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah',
-        //         createdAt: new Date(2016, 8, 6, 12, 37),
-        //         user: {_id: 1, name: 'You', avatar: 'https://facebook.github.io/react/img/logo_og.png'}
-        //     },
-
-        //     {_id: 5,
-        //         text: 'This is a bunch of text to fill the screen so I can see how the text bubble will look when someone types a bunch of stuff',
-        //         createdAt: new Date(2016, 8, 6, 12, 20),
-        //         user: {_id: 2, name: 'You', avatar: 'https://facebook.github.io/react/img/logo_og.png'}
-        //     },
-
-        //     {_id: 4,
-        //         text: 'I did nawt!!',
-        //         createdAt: new Date(2016, 8, 6, 12, 1),
-        //         user: {_id: 1, name: 'You', avatar: 'https://facebook.github.io/react/img/logo_og.png'}
-        //     },
-
-        //     {_id: 3,
-        //         text: 'Cool story, person',
-        //         createdAt: new Date(2016, 8, 6, 11, 33),
-        //         user: {_id: 2, name: 'You', avatar: 'https://facebook.github.io/react/img/logo_og.png'}
-        //     },
 
         //     {_id: 2,
         //         text: '...dont mess with a Guy on a Buffalloooooo!',
@@ -90,7 +47,7 @@ class Chat extends Component {
     }
 
     renderConversation(apiMessages){
-        // function to take the @messages return from the api and set them up in the format listed above
+        // function to take the @messages returned from the api and set them up in the GiftedChat format
         var messagesArray = []
         var user_id = " "
         var messageToRender = {}
@@ -100,19 +57,14 @@ class Chat extends Component {
             }else{
                 user_id = 2
             }
-            // messageToRender = {_id: {message_id}, text: apiMessages[i].body, createdAt: new Date()}
-            messagesArray.unshift({_id: i+1, text: apiMessages[i].body, createdAt: apiMessages[i].created_at, user: {_id: user_id}})
-
+            messagesArray.unshift({_id: i+1, text: apiMessages[i].body, createdAt: apiMessages[i].created_at, user: {_id: user_id}, avatar: this.props.receiving_user.image_url})
         }
         this.setState({
-
-        messages: messagesArray
-    })
-        // will need to check if the message was written by the signed in user or the recipient to assign either
-        // _id: 1(user) or _id: 2(recipient) so the text bubbles will align properly
+            messages: messagesArray
+        })
     }
 
-// need fetchConversation to update this.state.conversation to the responseData, which is an array of message objects
+
     fetchConversation(senderId){
 
         var sender = senderId.toString()
@@ -136,7 +88,7 @@ class Chat extends Component {
     }
 
     addMessage(senderId, recipientId, messages){
-        fetch(REQUEST_URL, {
+        return fetch(REQUEST_URL, {
 
             method: "post",
             headers: {
@@ -151,29 +103,30 @@ class Chat extends Component {
             })
         })
         .then((response) => response.json())
-        .then((responseData) => {
-            this.setState({
 
-                conversation: responseData
-            });
-        })
-        .done();
     }
 
 
     onSend(messages = []) {
-        this.setState({message: messages[0].text})
-        this.addMessage(this.state.sender_id, this.state.recipient_id, messages[0].text)
-        // this.setState((previousState) => {
-        //     return {
-        //         messages: GiftedChat.append(previousState.messages, messages),
-        //     };
-        // });
+        // this.setState({message: messages[0].text})
+
+        this.addMessage(this.state.sender_id, this.state.recipient_id, messages[0].text).then(() =>
+            this.fetchConversation(1).then((responseData) => {
+                this.renderConversation(responseData)
+            })
+            )
+
+
+
+                // THIS IS ORIGINAL CODE TO DISPLAY NEW MESSAGE ON SCREEN___________________________________
+                // WHEN SEND IS CLICKED, NEW MESSAGE IS APPENDED TO 'MESSAGE' STATE. WILL BE AT [0]
+                    // this.setState((previousState) => {
+                    //     return {
+                    //         messages: GiftedChat.append(previousState.messages, messages),
+                    //     };
+                    // });
     }
-                // onSend={this.onSend}
-                // onChangeText={(message) => this.setState({message})}
-                // {() => this.fetchConvo(4, 5), this.setState({message})}
-                // onSend={() => this.fetchConvo(4, 5, this.state.messages)}
+
     render() {
         return (
             <View style={styles.container}>
@@ -181,10 +134,8 @@ class Chat extends Component {
             </View>
         );
     }
-
-
 }
-// (val) =>this.setState({email: val})
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
