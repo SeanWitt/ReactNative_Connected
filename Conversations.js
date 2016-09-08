@@ -66,7 +66,7 @@ class Conversations extends Component {
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(responseData),
+            dataSource: this.state.dataSource.cloneWithRows(responseData.conversations),
             isLoading: false
         });
       })
@@ -101,23 +101,23 @@ class Conversations extends Component {
       );
   }
 
-  showConversationDetail(conversation) {
+  showConversationDetail(receiving_user) {
        this.props.navigator.push({
            title: "Your Conversations",
            component: Chat,
-           passProps: {conversation}
+           passProps: {receiving_user}
        });
   }
 
 
 
-  renderConversation(conversation) {
+  renderConversation(user) {
      return (
-          <TouchableHighlight onPress={() => this.showConversationDetail(conversation)}  underlayColor='#dddddd'>
+          <TouchableHighlight onPress={() => this.showConversationDetail(user)}  underlayColor='#dddddd'>
               <View>
                   <View style={styles.container}>
                       <View style={styles.rightContainer}>
-                          <Text style={styles.title}>{conversation.recipient_id}</Text>
+                          <Text style={styles.title}>{user.username}</Text>
                       </View>
                   </View>
                   <View style={styles.separator} />
