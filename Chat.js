@@ -14,9 +14,6 @@ class Chat extends Component {
             messages: [],
             sender_id: 1,
             recipient_id: this.props.receiving_user.id,
-            // message: '',
-            conversation: [],
-
         };
         this.onSend = this.onSend.bind(this);
     }
@@ -24,26 +21,7 @@ class Chat extends Component {
     componentWillMount() {
         this.fetchConversation(1).then((responseData) => {
              this.renderConversation(responseData)
-             // this.setState({conversation: responseData})
-
         })
-
-        // messages: [
-
-        //     {_id: 2,
-        //         text: '...dont mess with a Guy on a Buffalloooooo!',
-        //         createdAt: new Date(2016, 8, 6, 11, 26),
-        //         user: {_id: 1, name: 'You', avatar: 'https://facebook.github.io/react/img/logo_og.png'}
-        //     },
-
-            // {_id: 1,
-            //     text: 'I dun told ya...',
-            //     createdAt: new Date(2016, 8, 6, 11, 23),
-            //     user: {_id: 2, name: 'You', avatar: 'https://facebook.github.io/react/img/logo_og.png'}
-            // }
-
-        // ],
-        // });
     }
 
     renderConversation(apiMessages){
@@ -66,25 +44,10 @@ class Chat extends Component {
 
 
     fetchConversation(senderId){
-
         var sender = senderId.toString()
 
         return fetch(FETCH_MESSAGES_URL + sender)
         .then((response) => response.json())
-
-
-
-        // .then((responseData) => {
-
-
-        //     return responseData
-
-        //     // this.state.setState({
-        //     //     conversation: [1,2,3]
-        //     // //     conversation: responseData
-        //     // });
-
-        // })
     }
 
     addMessage(senderId, recipientId, messages){
@@ -103,28 +66,15 @@ class Chat extends Component {
             })
         })
         .then((response) => response.json())
-
     }
 
 
     onSend(messages = []) {
-        // this.setState({message: messages[0].text})
-
         this.addMessage(this.state.sender_id, this.state.recipient_id, messages[0].text).then(() =>
             this.fetchConversation(1).then((responseData) => {
                 this.renderConversation(responseData)
             })
-            )
-
-
-
-                // THIS IS ORIGINAL CODE TO DISPLAY NEW MESSAGE ON SCREEN___________________________________
-                // WHEN SEND IS CLICKED, NEW MESSAGE IS APPENDED TO 'MESSAGE' STATE. WILL BE AT [0]
-                    // this.setState((previousState) => {
-                    //     return {
-                    //         messages: GiftedChat.append(previousState.messages, messages),
-                    //     };
-                    // });
+        )
     }
 
     render() {
@@ -145,3 +95,12 @@ const styles = StyleSheet.create({
 });
 
 module.exports = Chat;
+
+// KEEP THIS FOR NOW AS A TEMPLATE FOR THE GIFTEDCHAT MESSAGE FORMAT -------------------------------
+        // messages: [
+
+        //     {_id: 2,
+        //         text: '...dont mess with a Guy on a Buffalloooooo!',
+        //         createdAt: new Date(2016, 8, 6, 11, 26),
+        //         user: {_id: 1, name: 'You', avatar: 'https://facebook.github.io/react/img/logo_og.png'}
+        //     },
