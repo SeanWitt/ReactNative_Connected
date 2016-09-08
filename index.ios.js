@@ -11,7 +11,7 @@ var Featured = require('./Featured');
 var Search = require('./Search');
 var Contacts = require('./Contacts');
 var Register = require('./Register');
-import BottomTabBar from './BottomTabBar';
+var BottomTabBar = require ('./BottomTabBar');
 import Login from './Login';
 import WelcomePage from './WelcomePage';
 var Chat = require('./Chat');
@@ -40,7 +40,7 @@ class Connected extends Component {
         return (
             <View style={styles.container}>
                 <Navigator
-                    initialRoute={{name: 'bottomtabbar'}}
+                    initialRoute={{name: 'welcomepage'}}
                     renderScene={this.renderScene.bind(this)}
                 />
             </View>
