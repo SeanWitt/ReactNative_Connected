@@ -5,6 +5,7 @@ import {
   TouchableHighlight,
   AsyncStorage,
   Text,
+  Image,
   View
 } from 'react-native';
 
@@ -54,15 +55,17 @@ class WelcomePage extends Component {
   // }
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome Friend </Text>
-        <TouchableHighlight onPress={ this.navigate.bind(this,'register') } style={styles.button}>
-          <Text style={styles.buttonText}>Register</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={ this.navigate.bind(this, 'login') } style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableHighlight>
-      </View>
+      <Image source={{uri: "https://snap-photos.s3.amazonaws.com/img-thumbs/960w/F6S6FIDJJ6.jpg"}} style={styles.backgroundImage}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Welcome Friend </Text>
+          <TouchableHighlight onPress={ this.navigate.bind(this,'register') } style={styles.button}>
+            <Text style={styles.buttonText}>Register</Text>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={ this.navigate.bind(this, 'login') } style={styles.button}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableHighlight>
+        </View>
+      </Image>
     );
   }
 }
@@ -72,9 +75,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    // backgroundColor: '#F5FCFF',
     padding: 10,
-    paddingTop: 180
+    paddingTop: 400
   },
   button: {
     height: 50,
@@ -82,6 +85,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     alignItems: 'center',
     marginTop: 10,
+    borderRadius: 5,
     justifyContent: 'center'
   },
   buttonText: {
@@ -89,9 +93,15 @@ const styles = StyleSheet.create({
     color: '#FFF',
     alignSelf: 'center'
   },
+    backgroundImage: {
+    flex: 1,
+    alignSelf: 'stretch',
+    width: null,
+  },
   title: {
     fontSize: 25,
-    marginBottom: 15
+    marginBottom: 15,
+    color: "#FFFFFA"
   }
 });
 
