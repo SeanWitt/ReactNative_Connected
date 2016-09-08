@@ -22,11 +22,19 @@ class Chat extends Component {
     }
 
     componentWillMount() {
-        debugger
-        this.fetchConversation(1)
+        this.fetchConversation(1).then((responseData) => {
+             this.renderConversation(responseData)
+             // this.setState({conversation: responseData})
 
-        this.renderConversation(allMessages)
+        })
+
         // this.setState({
+        // //     conversation: this.fetchConversation(1)
+        // // })
+
+        // // debugger
+        // // this.renderConversation(allMessages)
+        // // this.setState({
 
         // messages: [
         //     {_id: 8,
@@ -71,11 +79,11 @@ class Chat extends Component {
         //         user: {_id: 1, name: 'You', avatar: 'https://facebook.github.io/react/img/logo_og.png'}
         //     },
 
-        //     {_id: 1,
-        //         text: 'I dun told ya...',
-        //         createdAt: new Date(2016, 8, 6, 11, 23),
-        //         user: {_id: 2, name: 'You', avatar: 'https://facebook.github.io/react/img/logo_og.png'}
-        //     },
+            // {_id: 1,
+            //     text: 'I dun told ya...',
+            //     createdAt: new Date(2016, 8, 6, 11, 23),
+            //     user: {_id: 2, name: 'You', avatar: 'https://facebook.github.io/react/img/logo_og.png'}
+            // }
 
         // ],
         // });
@@ -83,10 +91,25 @@ class Chat extends Component {
 
     renderConversation(apiMessages){
         // function to take the @messages return from the api and set them up in the format listed above
+        var messagesArray = []
+        var user_id = " "
+        var messageToRender = {}
         for (var i = 0; i < apiMessages.length; i ++) {
-            debugger
-        }
+            if (apiMessages[i].user_id == 1) {
+                user_id = 1
+            }else{
+                user_id = 2
+            }
+            // messageToRender = {_id: {message_id}, text: apiMessages[i].body, createdAt: new Date()}
+            messagesArray.unshift({_id: i+1, text: apiMessages[i].body, createdAt: apiMessages[i].created_at, user: {_id: user_id}})
 
+        }
+        this.setState({
+
+        messages: messagesArray
+    })
+        // will need to check if the message was written by the signed in user or the recipient to assign either
+        // _id: 1(user) or _id: 2(recipient) so the text bubbles will align properly
     }
 
 // need fetchConversation to update this.state.conversation to the responseData, which is an array of message objects
@@ -94,18 +117,22 @@ class Chat extends Component {
 
         var sender = senderId.toString()
 
-        fetch(FETCH_MESSAGES_URL + sender)
+        return fetch(FETCH_MESSAGES_URL + sender)
         .then((response) => response.json())
 
-        .then((responseData) => {
-            return responseData
 
-            // this.state.setState({
-            //     conversation: [1,2,3]
-            // //     conversation: responseData
-            // });
 
-        })
+        // .then((responseData) => {
+
+
+        //     return responseData
+
+        //     // this.state.setState({
+        //     //     conversation: [1,2,3]
+        //     // //     conversation: responseData
+        //     // });
+
+        // })
     }
 
     addMessage(senderId, recipientId, messages){
