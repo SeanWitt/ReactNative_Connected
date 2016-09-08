@@ -102,7 +102,7 @@ class Conversations extends Component {
 
   showConversationDetail(receiving_user) {
        this.props.navigator.push({
-           title: "Your Conversations",
+           title: receiving_user.username,
            component: Chat,
            passProps: {receiving_user}
        });

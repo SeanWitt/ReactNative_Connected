@@ -114,11 +114,12 @@ class UserDetail extends Component {
           );
     }
 
-      messageUser(user) {
+      messageUser(receiving_user) {
+        debugger
        this.props.navigator.push({
            title: "New Message" ,
            component: Chat,
-           passProps: {user}
+           passProps: {receiving_user}
        });
   }
 
