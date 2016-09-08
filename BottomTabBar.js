@@ -6,6 +6,7 @@ var Search = require('./Search');
 var Contacts = require('./Contacts');
 var Register = require('./Register');
 var Chat = require('./Chat');
+var UserProfile = require('./UserProfile')
 
 class BottomTabBar extends Component {
 
@@ -42,13 +43,13 @@ class BottomTabBar extends Component {
                 </TabBarIOS.Item>
                 <TabBarIOS.Item
                 systemIcon="contacts"
-                    selected={this.state.selectedTab === 'contacts'}
+                    selected={this.state.selectedTab === 'userprofile'}
                     onPress={() => {
                         this.setState({
-                            selectedTab: 'contacts'
+                            selectedTab: 'userprofile'
                         });
                     }}>
-                    <Contacts/>
+                    <UserProfile/>
                 </TabBarIOS.Item>
                 <TabBarIOS.Item
                 title="Chat"
