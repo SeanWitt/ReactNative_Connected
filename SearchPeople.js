@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, ListView, Navigator, TouchableHighlight, PickerIOS, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, Image,TextInput, ListView, Navigator, TouchableHighlight, PickerIOS, ActivityIndicator } from 'react-native';
 
 var SearchResults = require('./SearchResults');
 var CategoryDetail = require('./CategoryDetail');
@@ -40,8 +40,9 @@ render() {
             ( <View/>);
 
         return (
+
+            <Image source={{uri: "https://snap-photos.s3.amazonaws.com/img-thumbs/960w/KM2U4NP9BN.jpg"}} style={styles.backgroundImage} >
             <View style={styles.container}>
-                <Text style={styles.instructions}>Search People Nearby With Your Interests</Text>
                 <View>
                         <PickerIOS
                             selectedValue = {this.state.interestSelection}
@@ -82,6 +83,7 @@ render() {
                 </TouchableHighlight>
                 <Text style={styles.errorMessage}>{this.state.errorMessage}</Text>
             </View>
+            </Image>
         );
     }
 
@@ -127,22 +129,36 @@ render() {
 var styles = StyleSheet.create({
     container: {
         marginTop: 65,
-        padding: 10
+        padding: 10,
+        backgroundColor: "white",
+        opacity: .9,
+        height: 600
     },
     input: {
         height: 50,
-        marginTop: 10,
+        marginTop: 100,
         padding: 4,
         fontSize: 18,
         borderWidth: 1,
         borderColor: '#48bbec',
+        borderRadius: 5,
+    },
+    PickerIOS: {
+        color: "white",
+        marginTop: 300
+    },
+    backgroundImage: {
+        flex: 1,
+        alignSelf: 'stretch',
+        width: null,
     },
     button: {
         height: 50,
         backgroundColor: '#48BBEC',
         alignSelf: 'stretch',
         marginTop: 10,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius: 5
     },
     buttonText: {
         fontSize: 22,
