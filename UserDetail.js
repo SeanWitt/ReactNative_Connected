@@ -7,51 +7,6 @@ var Chat = require('./Chat');
 
 var REQUEST_URL = 'http://localhost:3000/users/';
 
-var styles = StyleSheet.create({
-    container: {
-        marginTop: 65,
-        padding: 30
-    },
-    thumbnail: {
-      width: 200,
-      height: 150,
-      marginLeft: 60,
-      borderWidth: 1,
-      borderColor: "black",
-      marginTop: 30
-    },
-    title: {
-      flex: 1,
-      fontSize: 25,
-      marginTop: 10,
-      marginBottom: 8,
-    },
-    image: {
-      width: 107,
-      height: 165,
-      padding: 10
-    },
-    description: {
-      padding: 10,
-      fontSize: 15,
-      color: '#656565'
-    },
-    button: {
-      height: 50,
-      backgroundColor: '#48BBEC',
-      alignSelf: 'stretch',
-      marginTop: 10,
-      justifyContent: 'center'
-    },
-    buttonText: {
-      fontSize: 22,
-      color: '#FFF',
-      alignSelf: 'center'
-  }
-});
-
-
-
 class UserDetail extends Component {
     constructor(props) {
         super(props);
@@ -94,6 +49,7 @@ class UserDetail extends Component {
         // this.fetchUsers(interest);
           return (
               <View style={styles.container}>
+              <Image style={styles.backgroundImage} source={{uri: "https://snap-photos.s3.amazonaws.com/img-thumbs/960w/SUORHAWYKH.jpg"}}/>
                 <Image source={{uri: user.image_url}}
                   style={styles.thumbnail} />
                   <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',}}>
@@ -142,6 +98,52 @@ class UserDetail extends Component {
           );
     }
 }
+
+var styles = StyleSheet.create({
+    container: {
+        marginTop: 65,
+        padding: 30
+    },
+    thumbnail: {
+      width: 200,
+      height: 150,
+      marginLeft: 60,
+      borderWidth: 1,
+      borderColor: "black",
+      marginTop: 30
+    },
+    title: {
+      flex: 1,
+      fontSize: 25,
+      marginTop: 10,
+      marginBottom: 8,
+    },
+    image: {
+      width: 107,
+      height: 165,
+      padding: 10
+    },
+    description: {
+      padding: 10,
+      fontSize: 15,
+      color: '#656565'
+    },
+    backgroundImage: {
+      height: 200
+    },
+    button: {
+      height: 50,
+      backgroundColor: '#48BBEC',
+      alignSelf: 'stretch',
+      marginTop: 10,
+      justifyContent: 'center'
+    },
+    buttonText: {
+      fontSize: 22,
+      color: '#FFF',
+      alignSelf: 'center'
+  }
+});
 
 
 module.exports = UserDetail;

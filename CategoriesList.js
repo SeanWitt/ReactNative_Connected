@@ -8,48 +8,7 @@ var CategoryDetail = require('./CategoryDetail');
 
 var REQUEST_URL = 'http://localhost:3000/interests';
 
-var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-        padding: 10
-    },
-    thumbnail: {
-        width: 53,
-        height: 81,
-        marginRight: 10
-    },
-    rightContainer: {
-        flex: 1
-    },
-    backgroundImage: {
-      flex: 1,
-      alignSelf: 'stretch',
-      width: null,
-    },
-    title: {
-      fontSize: 20,
-      marginBottom: 8
-    },
-    author: {
-      color: '#656565'
-    },
-    separator: {
-      height: 1,
-      backgroundColor: '#dddddd'
-   }, listView: {
-      backgroundColor: '#F5FCFF',
-      marginTop: 65,
-   },
-   loading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-   }
-});
+
 
 class CategoriesList extends Component {
     constructor(props) {
@@ -120,17 +79,65 @@ class CategoriesList extends Component {
      return (
           <TouchableHighlight onPress={() => this.showInterestDetail(interest)}  underlayColor='#dddddd'>
               <View>
+                <Image source={{uri: interest.image_url}} style={styles.backgroundImage} >
                   <View style={styles.container}>
-                      <Image source={{uri: interest.image_url}} style={styles.thumbnail} />
-                      <View style={styles.rightContainer}>
+
+                      <View>
                           <Text style={styles.title}>{interest.name}</Text>
                       </View>
+
                   </View>
+                 </Image>
                   <View style={styles.separator} />
               </View>
           </TouchableHighlight>
      );
    }
 }
+
+var styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        // backgroundColor: '#F5FCFF',
+        height: 90
+        // padding: 10
+    },
+    thumbnail: {
+        width: 53,
+        height: 81,
+        marginRight: 10
+    },
+    rightContainer: {
+        flex: 1
+    },
+    backgroundImage: {
+      flex: 1,
+      alignSelf: 'stretch',
+      width: null,
+    },
+    title: {
+      fontSize: 40,
+      marginBottom: 8,
+      color: "white"
+    },
+    author: {
+      color: '#656565'
+    },
+    separator: {
+      height: 1,
+      backgroundColor: '#dddddd'
+   }, listView: {
+      backgroundColor: '#F5FCFF',
+      marginTop: 65,
+   },
+   loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+   }
+});
 
 module.exports = CategoriesList;
