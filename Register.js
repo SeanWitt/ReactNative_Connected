@@ -3,56 +3,94 @@ import { View,
          Text,
          StyleSheet,
          TextInput,
+         AsyncStorage,
+         ActivityIndicator,
          TouchableHighlight,
          AlertIOS } from 'react-native';
 
+import Featured from './Featured';
+import BottomTabBar from './BottomTabBar';
 
+// Need access_token from back-end user model/table
+const ACCESS_TOKEN = 'access_token';
 
-export default class Register extends Component {
+class Register extends Component {
  constructor() {
     super ();
-      this.state = {
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-        errors: []
+
+    this.state = {
+      username: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+      errors: [],
+      showProgress: false,
+    }
+  }
+
+  redirect(routeName, accessToken){
+    this.props.navigator.push({
+      name: routeName
+    });
+  }
+
+  async storeToken(accessToken){
+      try {
+        await AsyncStorage.setItem(ACCESS_TOKEN, accessToken);
+        console.log("Token was stored successfully");
+      } catch(error){
+        console.log("Something went wrong");
       }
     }
 
-  carTester() {
-    fetch('http://localhost:3000', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+  async onRegisterPressed() {
+    this.setState({showProgress: true})
+    try {
+      let response = await fetch('http://localhost:3000/users', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user:{
+            username: this.state.username,
+            email: this.state.email,
+            password: this.state.password,
+            password_confirmation: this.state.password_confirmation
+          }
+        })
+      })
+      let res = await response.text();
+      console.log(res);
+      if (response.status >= 200 && response.status < 300){
+        let accessToken = res;
+        console.log(accessToken);
+        this.storeToken(accessToken)
+        this.redirect('bottomtabbar', accessToken);
+      } else {
+        let errors = res;
+        throw errors;
       }
-    }).then((response) => response.json())
-    .then((responseData) => { AlertIOS.alert(
-      "Get Response",
-      "Make:" + responseData.make + " Year:" + responseData.year
-      );
-    })
-      .done();
+    } catch(errors) {
+      //errors are in JSON form so we must parse them first.
+      let formErrors = JSON.parse(errors);
+      //We will store all the errors in the array.
+      let errorsArray = [];
+      for(var key in formErrors) {
+        //If array is bigger than one we need to split it.
+        if(formErrors[key].length > 1) {
+            formErrors[key].map(error => errorsArray.push(`${key} ${error}`));
+        } else {
+            errorsArray.push(`${key} ${formErrors[key]}`);
+        }
+      }
+      console.log(errorsArray)
+      this.setState({errors: errorsArray})
+      this.setState({showProgress: false})
+    }
   }
 
-  onRegisterPressed() {
-
-    fetch('http://localhost:3000/users', {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body:JSON.stringify({name: this.state.name, email: this.state.email, password: this.state.password})
-    }).then((response) => response.json())
-    .then((responseData) => { AlertIOS.alert(
-      "Get Response",
-      "Name:" + responseData.name + " Email:" + responseData.email
-      );
-    })
-      .done();
-  }
 
   render() {
     return (
@@ -63,25 +101,39 @@ export default class Register extends Component {
           style={styles.input} placeholder="Email">
         </TextInput>
         <TextInput
-          onChangeText={(val) => this.setState({name: val})}
+          onChangeText={(val) => this.setState({username: val})}
           style={styles.input} placeholder="Name">
         </TextInput>
         <TextInput
           onChangeText={(val) => this.setState({password: val})}
-          style={styles.input} placeholder="Password">
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry={true}>
         </TextInput>
         <TextInput
           onChangeText={(val) => this.setState({password_confirmation: val})}
-          style={styles.input} placeholder="Confirm Password">
+          style={styles.input}
+          placeholder="Confirm Password"
+          secureTextEntry={true}>
           </TextInput>
         <TouchableHighlight style={styles.button} onPress={this.onRegisterPressed.bind(this)}>
         <Text style={styles.buttonText}>
           Register
         </Text>
         </TouchableHighlight>
+
+        <Errors errors={this.state.errors} />
       </View>
     );
   }
+}
+
+const Errors = (props) => {
+  return (
+    <View>
+      {props.errors.map((error, i)=> <Text key={i} style={styles.error}>{error}</Text>)}
+    </View>
+  );
 }
 
 
