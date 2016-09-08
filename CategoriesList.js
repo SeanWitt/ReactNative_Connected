@@ -102,7 +102,6 @@ class CategoriesList extends Component {
   }
 
   showInterestDetail(interest) {
-    debugger
        this.props.navigator.push({
            title: "People near you that like " + interest.name,
            component: CategoryDetail,
