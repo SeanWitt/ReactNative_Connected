@@ -25,24 +25,29 @@ var styles = StyleSheet.create({
     rightContainer: {
         flex: 1
     },
+    backgroundImage: {
+      flex: 1,
+      alignSelf: 'stretch',
+      width: null,
+    },
     title: {
-        fontSize: 20,
-        marginBottom: 8
+      fontSize: 20,
+      marginBottom: 8
     },
     author: {
-        color: '#656565'
+      color: '#656565'
     },
     separator: {
-       height: 1,
-       backgroundColor: '#dddddd'
+      height: 1,
+      backgroundColor: '#dddddd'
    }, listView: {
-       backgroundColor: '#F5FCFF',
-       marginTop: 65,
+      backgroundColor: '#F5FCFF',
+      marginTop: 65,
    },
    loading: {
-       flex: 1,
-       alignItems: 'center',
-       justifyContent: 'center'
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
    }
 });
 
@@ -116,9 +121,7 @@ class CategoriesList extends Component {
           <TouchableHighlight onPress={() => this.showInterestDetail(interest)}  underlayColor='#dddddd'>
               <View>
                   <View style={styles.container}>
-                      <Image
-                          source={{uri: interest.image_url}}
-                          style={styles.thumbnail} />
+                      <Image source={{uri: interest.image_url}} style={styles.thumbnail} />
                       <View style={styles.rightContainer}>
                           <Text style={styles.title}>{interest.name}</Text>
                       </View>

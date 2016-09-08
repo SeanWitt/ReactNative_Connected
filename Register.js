@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFA',
     opacity: .9,
     borderRadius: 5,
-    // borderColor: "#44A1A0",
   },
   placeholderTextColor: {
     color: '#FFFFFA',
