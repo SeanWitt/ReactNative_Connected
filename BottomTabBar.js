@@ -67,7 +67,8 @@ class BottomTabBar extends Component {
                     selected={this.state.selectedTab === 'Chat'}
                     onPress={() => {
                         this.setState({
-                            selectedTab: 'chat'
+                            selectedTab: 'Chat',
+                            notifCount: this.state.notifcount + 1,
                         });
                     }}>
                     <Messages/>
