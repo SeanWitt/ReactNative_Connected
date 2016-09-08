@@ -11,6 +11,8 @@ import { View,
 
 const ACCESS_TOKEN = 'access_token'
 
+import BottomTabBar from './BottomTabBar'
+
 class Login extends Component {
   constructor() {
     super ();
@@ -28,30 +30,31 @@ class Login extends Component {
       name: routeName
     });
   }
+
   async storeToken(accessToken){
     try {
-        await AsyncStorage.setItem(ACCESS_TOKEN, accessToken);
-        this.getToken();
+      await AsyncStorage.setItem(ACCESS_TOKEN, accessToken);
+      this.getToken();
     } catch(error) {
-        console.log("something went wrong");
+      console.log("something went wrong in store token")
     }
   }
 
-  async getToken(){
+  async getToken() {
     try {
-        let token = await AsyncStorage.getItem(ACCESS_TOKEN);
-        console.log("token is: " + token)
+      let token = await AsyncStorage.getItem(ACCESS_TOKEN);
+      console.log("token is: " + token);
     } catch(error) {
-        console.log("something went wrong");
+      console.log("something went wrong in get token")
     }
   }
 
-  async removeToken(){
+  async removeToken() {
     try {
-        await AsyncStorage.removeItem(ACCESS_TOKEN);
-        this.getToken();
+      await AsyncStorage.removeItem(ACCESS_TOKEN)
+      this.getToken();
     } catch(error) {
-        console.log("something went wrong");
+      console.log("something went wrong in remove token")
     }
   }
 
@@ -78,14 +81,13 @@ class Login extends Component {
           console.log(accessToken);
           //On success we will store the access_token in the AsyncStorage
           this.storeToken(accessToken);
-          this.redirect('home');
+          this.redirect('bottomtabbar');
       } else {
           //Handle error
           let error = res;
           throw error;
       }
     } catch(error) {
-        this.removeToken();
         this.setState({error: error});
         console.log("error " + error);
         this.setState({showProgress: false});
@@ -113,7 +115,7 @@ class Login extends Component {
         </TouchableHighlight>
 
         <Text style={styles.error}>
-
+          {this.state.error}
         </Text>
 
         <ActivityIndicator animating={this.state.showProgress} size="large" style={styles.loader} />
