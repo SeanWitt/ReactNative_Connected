@@ -115,6 +115,7 @@ class Conversations extends Component {
           <TouchableHighlight onPress={() => this.showConversationDetail(userRecipient)}  underlayColor='#dddddd'>
               <View>
                   <View style={styles.container}>
+                    <Image source={{uri: userRecipient.image_url}} style={styles.thumbnail} />
                       <View style={styles.rightContainer}>
                           <Text style={styles.title}>{userRecipient.username}</Text>
                       </View>
