@@ -101,6 +101,7 @@ class CategoryDetail extends Component {
         // this.fetchUsers(interest);
          return (
               <ListView
+                  enableEmptySections={true}
                   dataSource={this.state.dataSource}
                   renderRow={this.renderUser.bind(this)}
                   style={styles.listView}

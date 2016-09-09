@@ -46,6 +46,7 @@ class CategoriesList extends Component {
 
          return (
               <ListView
+                  enableEmptySections={true}
                   dataSource={this.state.dataSource}
                   renderRow={this.renderInterest.bind(this)}
                   style={styles.listView}

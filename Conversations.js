@@ -81,6 +81,7 @@ class Conversations extends Component {
 
          return (
               <ListView
+                  enableEmptySections={true}
                   dataSource={this.state.dataSource}
                   renderRow={this.renderConversation.bind(this)}
                   style={styles.listView}
