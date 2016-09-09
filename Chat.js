@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { NavigatorIOS, StyleSheet, View, Text, AsyncStorage } from 'react-native';
+import { NavigatorIOS, StyleSheet, View, Text, AsyncStorage, AlertIOS } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 
 const ACCESS_TOKEN = 'access_token'
@@ -49,7 +49,7 @@ class Chat extends Component {
             }else{
                 user_id = 2
             }
-            messagesArray.unshift({_id: i+1, text: apiMessages[i].body, createdAt: apiMessages[i].created_at, user: {_id: user_id}, avatar: this.props.receiving_user.image_url})
+            messagesArray.unshift({_id: i+1, text: apiMessages[i].body, createdAt: apiMessages[i].created_at, user: {_id: user_id}, avatar: 'https://facebook.github.io/react/img/logo_og.png'})
         }
         this.setState({
             messages: messagesArray
