@@ -56,6 +56,7 @@ class SearchResults extends Component {
     render() {
         return (
             <ListView
+                enableEmptySections={true}
                 dataSource={this.state.dataSource}
                 renderRow={this.renderUser.bind(this)}
                 style={styles.listView}
