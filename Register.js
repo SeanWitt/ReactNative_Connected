@@ -51,7 +51,7 @@ class Register extends Component {
   async onRegisterPressed() {
     this.setState({showProgress: true})
     try {
-      let response = await fetch('http://localhost:3000/users', {
+      let response = await fetch('https://dbc-connected.herokuapp.com/users', {
         method: 'post',
         headers: {
           'Accept': 'application/json',

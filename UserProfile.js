@@ -10,7 +10,7 @@ import { View,
          AsyncStorage,
          AlertIOS } from 'react-native';
 
-var REQUEST_URL = 'http://localhost:3000/users/'
+var REQUEST_URL = 'https://dbc-connected.herokuapp.com/users/'
 const ACCESS_TOKEN = 'access_token'
 
 import BottomTabBar from './BottomTabBar'

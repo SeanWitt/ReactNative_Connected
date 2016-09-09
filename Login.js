@@ -67,7 +67,7 @@ class Login extends Component {
   async onLoginPressed() {
     this.setState({showProgess: true})
     try {
-      let response = await fetch('http://localhost:3000/sessions', {
+      let response = await fetch('https://dbc-connected.herokuapp.com/sessions', {
                               method: 'POST',
                               headers: {
                                 'Accept': 'application/json',

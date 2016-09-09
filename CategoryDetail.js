@@ -5,7 +5,7 @@ import { Image, StyleSheet, View, Text, ListView, TouchableHighlight, ActivityIn
 
 var UserDetail = require('./UserDetail');
 
-var REQUEST_URL = 'http://localhost:3000/interests';
+var REQUEST_URL = 'https://dbc-connected.herokuapp.com/interests';
 
 var styles = StyleSheet.create({
     container: {

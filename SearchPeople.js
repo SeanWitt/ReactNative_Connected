@@ -8,7 +8,7 @@ var CategoryDetail = require('./CategoryDetail');
 
 var PickerItemIOS = PickerIOS.Item;
 
-var REQUEST_URL = "http://localhost:3000/users/search"
+var REQUEST_URL = "https://dbc-connected.herokuapp.com/users/search"
 
 var INTERESTS = {
     interests: ['Sports', 'Music', 'Food', 'Fitness', 'Politics', 'Books']
