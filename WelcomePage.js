@@ -39,7 +39,7 @@ class WelcomePage extends Component {
   //   let accessToken = token
 
   //   try {
-  //     let response = await fetch('https://dbc-connected.herokuapp.com');
+  //     let response = await fetch('https://agile-dawn-41501.herokuapp.com');
   //     let res = await response.text();
   //     if (response.status >= 200 && response.status < 300) {
   //       //Verified token means user is loggen in to we redirect to home.

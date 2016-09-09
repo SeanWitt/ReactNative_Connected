@@ -5,7 +5,7 @@ import { Image, StyleSheet, View, Text, Navigator, ListView, TouchableHighlight,
 
 var Chat = require('./Chat');
 
-var REQUEST_URL = 'https://dbc-connected.herokuapp.com/conversations';
+var REQUEST_URL = 'https://agile-dawn-41501.herokuapp.com/conversations';
 
 var styles = StyleSheet.create({
     container: {

@@ -5,7 +5,7 @@ import { Image, StyleSheet, View, Text, ListView, TouchableHighlight, ActivityIn
 
 var Chat = require('./Chat');
 
-var REQUEST_URL = 'https://dbc-connected.herokuapp.com/users/';
+var REQUEST_URL = 'https://agile-dawn-41501.herokuapp.com/users/';
 
 class UserDetail extends Component {
     constructor(props) {

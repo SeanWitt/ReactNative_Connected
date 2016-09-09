@@ -5,8 +5,8 @@ import { NavigatorIOS, StyleSheet, View, Text, AsyncStorage } from 'react-native
 import { GiftedChat } from 'react-native-gifted-chat';
 
 const ACCESS_TOKEN = 'access_token'
-var REQUEST_URL = 'https://dbc-connected.herokuapp.com/conversations';
-var FETCH_MESSAGES_URL = 'https://dbc-connected.herokuapp.com/users/';
+var REQUEST_URL = 'https://agile-dawn-41501.herokuapp.com/conversations';
+var FETCH_MESSAGES_URL = 'https://agile-dawn-41501.herokuapp.com/users/';
 
 class Chat extends Component {
 

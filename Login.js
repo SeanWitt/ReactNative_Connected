@@ -67,7 +67,7 @@ class Login extends Component {
   async onLoginPressed() {
     this.setState({showProgess: true})
     try {
-      let response = await fetch('https://dbc-connected.herokuapp.com/sessions', {
+      let response = await fetch('https://agile-dawn-41501.herokuapp.com/sessions', {
                               method: 'POST',
                               headers: {
                                 'Accept': 'application/json',

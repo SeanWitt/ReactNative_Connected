@@ -6,7 +6,7 @@ import { Image, StyleSheet, View, Text, ListView, TouchableHighlight, ActivityIn
 var CategoryDetail = require('./CategoryDetail');
 
 
-var REQUEST_URL = 'https://dbc-connected.herokuapp.com/interests';
+var REQUEST_URL = 'https://agile-dawn-41501.herokuapp.com/interests';
 
 
 

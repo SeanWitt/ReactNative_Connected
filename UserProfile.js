@@ -10,7 +10,7 @@ import { View,
          AsyncStorage,
          AlertIOS } from 'react-native';
 
-var REQUEST_URL = 'https://dbc-connected.herokuapp.com/users/'
+var REQUEST_URL = 'https://agile-dawn-41501.herokuapp.com/users/'
 const ACCESS_TOKEN = 'access_token'
 
 import BottomTabBar from './BottomTabBar'
@@ -57,7 +57,6 @@ class UserProfile extends Component {
     }
 
     onLogout() {
-      debugger
       this.deleteToken();
     }
 
