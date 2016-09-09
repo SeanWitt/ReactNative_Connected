@@ -23,19 +23,24 @@ class Login extends Component {
       password: "",
       error: "",
       showProgress: false,
+      accessToken: "",
     }
   }
 
-  redirect(routeName){
-    this.props.navigator.push({
-      name: routeName
-    });
-  }
+    redirect(routeName){
+      this.props.navigator.push({
+        name: routeName,
+        passProps: {
+          accessToken: this.state.accessToken
+        }
+      });
+    }
 
   async storeToken(accessToken){
     try {
       await AsyncStorage.setItem(ACCESS_TOKEN, accessToken);
       this.getToken();
+      this.setState({accessToken: ACCESS_TOKEN})
     } catch(error) {
       console.log("something went wrong in store token")
     }

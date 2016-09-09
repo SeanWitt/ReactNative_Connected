@@ -24,6 +24,10 @@ class Register extends Component {
       email: "",
       password: "",
       password_confirmation: "",
+      bio: "",
+      city: "",
+      state: "",
+      zipcode: "",
       errors: [],
       showProgress: false,
     }
@@ -118,7 +122,31 @@ class Register extends Component {
           placeholder="Confirm Password"
           placeholderTextColor="#44A1A0"
           secureTextEntry={true}>
-          </TextInput>
+        </TextInput>
+        <TextInput
+          onChangeText={(val) => this.setState({city: val})}
+          style={styles.input}
+          placeholder="City"
+          placeholderTextColor="#44A1A0">
+        </TextInput>
+        <TextInput
+          onChangeText={(val) => this.setState({state: val})}
+          style={styles.input}
+          placeholder="State"
+          placeholderTextColor="#44A1A0">
+        </TextInput>
+        <TextInput
+          onChangeText={(val) => this.setState({zipcode: val})}
+          style={styles.input}
+          placeholder="Zip code"
+          placeholderTextColor="#44A1A0">
+        </TextInput>
+        <TextInput
+          onChangeText={(val) => this.setState({bio: val})}
+          style={styles.input}
+          placeholder="Bio"
+          placeholderTextColor="#44A1A0">
+        </TextInput>
         <TouchableHighlight style={styles.button} onPress={this.onRegisterPressed.bind(this)}>
         <Text style={styles.buttonText}>
           Register
