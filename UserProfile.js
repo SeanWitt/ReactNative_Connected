@@ -14,37 +14,67 @@ var REQUEST_URL = 'http://localhost:3000/users/'
 const ACCESS_TOKEN = 'access_token'
 
 import BottomTabBar from './BottomTabBar'
+import WelcomePage from './WelcomePage'
 
 class UserProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: [],
-            dataSource: new ListView.DataSource({
-                   rowHasChanged: (row1, row2) => row1 !== row2
-            }),
+            user: "",
         }
     }
 
-    async componentDidMount() {
-        try {
-          const user = await AsyncStorage.getItem(ACCESS_TOKEN);
-          const parsedUser = JSON.parse(user)
-          this.setState({user: parsedUser})
-        } catch (error) {
-          throw error
+    componentDidMount() {
+      this.getToken();
+    }
+
+    async getToken() {
+      try {
+        let user = await AsyncStorage.getItem(ACCESS_TOKEN);
+        const parsedUser = JSON.parse(user)
+        this.setState({user: parsedUser})
+      } catch (error) {
+        throw error
+      }
+    }
+
+    async deleteToken() {
+      try {
+        await AsyncStorage.removeItem(ACCESS_TOKEN)
+        this.redirect('welcomepage');
+      } catch(error) {
+        console.log("Something went wrong in delete token");
+      }
+    }
+
+    redirect(routeName){
+      this.props.navigator.push({
+        name: routeName,
+        passProps: {
+          user: this.state.user
         }
+      });
+    }
+
+    onLogout() {
+      debugger
+      this.deleteToken();
     }
 
     render() {
 
-          return (
-              <View style={styles.container}>
-                  <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',}}>
-                      <Text style={styles.title}>
-                         {this.state.user.username}
-                      </Text>
-                  </View>
+      return (
+        <View style={styles.container}>
+            <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',}}>
+                <Text style={styles.title}>
+                    {this.state.user.username}
+                </Text>
+            </View>
+        <TouchableHighlight style={styles.button} onPress={this.onLogout.bind(this)}>
+          <Text style={styles.buttonText}>
+            Logout
+          </Text>
+        </TouchableHighlight>
               </View>
           );
       }
