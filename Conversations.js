@@ -56,7 +56,7 @@ class Conversations extends Component {
            };
     }
 
-    componentDidMount() {
+    async componentWillMount() {
        this.fetchData();
     }
 
