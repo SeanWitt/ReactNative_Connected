@@ -62,7 +62,11 @@ class Register extends Component {
             username: this.state.username,
             email: this.state.email,
             password: this.state.password,
-            password_confirmation: this.state.password_confirmation
+            password_confirmation: this.state.password_confirmation,
+            bio: this.state.bio,
+            city: this.state.city,
+            state: this.state.state,
+            zipcode: this.state.zipcode,
           }
         })
       })
@@ -143,7 +147,7 @@ class Register extends Component {
         </TextInput>
         <TextInput
           onChangeText={(val) => this.setState({bio: val})}
-          style={styles.input}
+          style={styles.description}
           placeholder="Bio"
           placeholderTextColor="#44A1A0">
         </TextInput>
@@ -177,11 +181,10 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   input: {
-    height: 50,
+    height: 35,
     marginTop: 10,
     padding: 4,
     fontSize: 18,
-    // borderWidth: 1,
     backgroundColor: '#FFFFFA',
     opacity: .9,
     borderRadius: 5,
@@ -213,6 +216,15 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     paddingTop: 10
+  },
+  description: {
+    height:120,
+    marginTop: 10,
+    padding: 4,
+    fontSize: 18,
+    backgroundColor: '#FFFFFA',
+    opacity: .9,
+    borderRadius: 5,
   },
   success: {
     color: 'green',
