@@ -12,6 +12,10 @@ Click here for the [Rails Backend Repo](https://github.com/tjoye20/Connected)
 
 Update 9/21/16: The Rails backend application is now deployed online through Heroku.  It is no longer necessary to clone that repo down to your local machine to run the entire application.
 
+### Screenshots
+
+![Connected Screenshots](https://github.com/SeanWitt/ReactNative_Connected/blob/master/Screen%20Shot%202016-09-22%20at%2010.45.08%20AM.png)
+
 ### Installation
 
 Since the iOS application is not active through the App Store, you will need XCode and a few other things to run the application through XCode's Simulator.   
